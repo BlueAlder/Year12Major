@@ -5,7 +5,7 @@ var startFrameMillis = Date.now();
 var endFrameMillis = Date.now();			//intialise the delta time
 
 var keyboard = new Keyboard();
-var player1; //= new Player();
+var player1 = new Player();
 
 //GET GLOBAL VARIABLES
 
@@ -20,6 +20,7 @@ var GAMESTATE_SPLASH = 0;
 var GAMESTATE_GAME = 1;
 var GAMESTATE_ENDGAME = 2;
 var GAMESTATE_WIN = 3;
+var curGameState = GAMESTATE_SPLASH;
 
 var fps = 0;
 var fpsCount = 0;
@@ -50,6 +51,23 @@ function run() {
 	context.fillStyle = "grey";
 	context.fillRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	switch(curGameState)
+	{
+		case GAMESTATE_SPLASH:
+			runSplash();
+			break;
+		case GAMESTATE_GAME:
+			runGame();
+			break;
+		case GAMESTATE_WIN:
+			runWin();
+			break;
+		case GAMESTATE_ENDGAME:
+			runEndGame();
+
+
+	}
+
 	fpsTime += deltaTime;
 	fpsCount++;
 
@@ -68,6 +86,10 @@ function run() {
 
 function runSplash()
 {
+	context.fillStyle = "black";
+	context.font = "50px Arial";
+	var textMeasure = context.measureText("Get The Code");
+	context.fillText("Get The Code", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2 - 100);
 
 }
 
