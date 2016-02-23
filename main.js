@@ -84,26 +84,35 @@ function run() {
 
 }
 
-function runSplash()
+function runSplash(deltaTime)
 {
 	context.fillStyle = "black";
 	context.font = "50px Arial";
 	var textMeasure = context.measureText("Get The Code");
 	context.fillText("Get The Code", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2 - 100);
 
+	if (keyboard.isKeyDown(keyboard.KEY_ENTER)) 
+	{
+		curGameState = GAMESTATE_GAME;
+	}
+
 }
 
-function runGame()
+function runGame(deltaTime)
+{
+	player1.update(deltaTime);
+
+	player1.draw(deltaTime);
+
+
+}
+
+function runWin(deltaTime)
 {
 
 }
 
-function runWin()
-{
-
-}
-
-function runEndGame()
+function runEndGame(deltaTime)
 {
 	
 }

@@ -46,5 +46,78 @@ var Player = function()   //this is the player intialiser to create the player
 }
 
 Player.prototype.update = function(deltaTime) {
+	var left, right, jump;
+	left = right = jump = false;
 
+	//check for user input for left or right
+
+	if(keyboard.isKeyDown(keyboard.KEY_LEFT))
+	{
+		left = true;
+		this.direction = LEFT;
+
+	}
+
+	else if (keyboard.isKeyDown(keyboard.KEY_RIGHT))
+	{
+		right = true;
+		this.direction = RIGHT;
+	}
+
+	if (keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP))
+	{
+		jump = true;
+
+	}
+
+
+	//update physics of player
+
+	var wasleft = this.velocityX < 0;		//checks to see whethere the player was left or right
+	var wasright = this.velocityX > 0;
+
+	var falling = this.falling;
+	var ddx = 0;			//sets the acceleration in the x component without interaction of the user
+	var ddy = GRAVITY;		//sets the acceleration of the y component to gravity
+
+	if (left)
+	{
+		ddx -= ACCEL;
+	}
+
+	else if (wasleft)
+	{
+		ddx += FRICTION;
+	}
+
+	if (right)
+	{
+		ddx += ACCEL;
+	}
+
+	else if (wasright)
+	{
+		ddx -= FRICTION;
+	}
+
+
+	this.x += deltaTime * this.velocityX;		//updates the player postition according to there velocity
+	this.y += deltaTime * this.velocityY;
+
+	this.velocityX = bound(this.velocityX + (deltaTime * ddx), -MAXDX, MAXDX);	//updates player velocities according to the newly caalculated accel
+	this.velocityY = bound(this.velocityY + (deltaTime * ddx), -MAXDY, MAXDY);
+
+	if ( (wasleft && (this.velocityX > 0))  ||  (wasright && (this.velocityY < 0)))
+	{
+		this.velocityX = 0;
+	}
+
+}
+
+
+Player.prototype.Draw = function()
+{
+	context.save();
+	context.drawImage(this.image, this.x)
+	context.restore();
 }
