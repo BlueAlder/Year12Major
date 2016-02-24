@@ -54,16 +54,16 @@ function run() {
 	switch(curGameState)
 	{
 		case GAMESTATE_SPLASH:
-			runSplash();
+			runSplash(deltaTime);
 			break;
 		case GAMESTATE_GAME:
-			runGame();
+			runGame(deltaTime);
 			break;
 		case GAMESTATE_WIN:
-			runWin();
+			runWin(deltaTime);
 			break;
 		case GAMESTATE_ENDGAME:
-			runEndGame();
+			runEndGame(deltaTime);
 
 
 	}
@@ -100,9 +100,9 @@ function runSplash(deltaTime)
 
 function runGame(deltaTime)
 {
-	player1.update(deltaTime);
+	player1.Update(deltaTime);
 
-	player1.draw(deltaTime);
+	player1.Draw(deltaTime);
 
 
 }

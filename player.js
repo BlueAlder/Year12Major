@@ -1,7 +1,7 @@
 //GLOBAL PHYSICS VARIABLES
 
 var METER = 36; //CHANGE THIS TO MAKE IT MODULAR
-var GRAVITY = METER * GRAVITY * 2; //the '2' is the gravity multiplier
+var GRAVITY = METER * 9.8 * 3 ; //the '2' is the gravity multiplier
 var MAXDX = METER * 10; //max xVelocity
 var MAXDY = METER * 15; //max 
 var ACCEL = MAXDX * 2; //acceleration in the x direction
@@ -45,7 +45,7 @@ var Player = function()   //this is the player intialiser to create the player
 
 }
 
-Player.prototype.update = function(deltaTime) {
+Player.prototype.Update = function(deltaTime) {
 	var left, right, jump;
 	left = right = jump = false;
 
@@ -54,22 +54,22 @@ Player.prototype.update = function(deltaTime) {
 	if(keyboard.isKeyDown(keyboard.KEY_LEFT))
 	{
 		left = true;
-		this.direction = LEFT;
+		this.direction = LEFT;	//change direction 
 
 	}
 
 	else if (keyboard.isKeyDown(keyboard.KEY_RIGHT))
 	{
 		right = true;
-		this.direction = RIGHT;
+		this.direction = RIGHT; //change direction 
 	}
 
 	if (keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP))
 	{
-		jump = true;
+		jump = true;			//check for jump
 
 	}
-
+	
 
 	//update physics of player
 
@@ -100,12 +100,23 @@ Player.prototype.update = function(deltaTime) {
 		ddx -= FRICTION;
 	}
 
+	if (jump)
+	{
+		ddy -= JUMP;
+		this.jumping = true;
+
+	}
+	
+	//check for out of bounds
+
+	
+
+	this.velocityX = bound(this.velocityX + (deltaTime * ddx), -MAXDX, MAXDX);	//updates player velocities according to the newly caalculated accel
+	this.velocityY = bound(this.velocityY + (deltaTime * ddy), -MAXDY, MAXDY);
 
 	this.x += deltaTime * this.velocityX;		//updates the player postition according to there velocity
 	this.y += deltaTime * this.velocityY;
 
-	this.velocityX = bound(this.velocityX + (deltaTime * ddx), -MAXDX, MAXDX);	//updates player velocities according to the newly caalculated accel
-	this.velocityY = bound(this.velocityY + (deltaTime * ddx), -MAXDY, MAXDY);
 
 	if ( (wasleft && (this.velocityX > 0))  ||  (wasright && (this.velocityY < 0)))
 	{
@@ -118,6 +129,6 @@ Player.prototype.update = function(deltaTime) {
 Player.prototype.Draw = function()
 {
 	context.save();
-	context.drawImage(this.image, this.x)
+	context.drawImage(this.image, this.x - this.width/2, this.y - this.height/2);
 	context.restore();
 }
