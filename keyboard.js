@@ -30,9 +30,9 @@ var Keyboard = function()
 
 
 	this.KEY_A = 65;
-	this.KEY_D = 37
-	this.KEY_S = 83
-	this.KEY_W = 87
+	this.KEY_D = 37;
+	this.KEY_S = 83;
+	this.KEY_W = 87;
 
 	this.KEY_SHIFT = 16;
 	this.KEY_CTRL = 17;

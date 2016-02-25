@@ -51,6 +51,8 @@ function run() {
 	context.fillStyle = "grey";
 	context.fillRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+
+
 	switch(curGameState)
 	{
 		case GAMESTATE_SPLASH:
@@ -58,6 +60,7 @@ function run() {
 			break;
 		case GAMESTATE_GAME:
 			runGame(deltaTime);
+			
 			break;
 		case GAMESTATE_WIN:
 			runWin(deltaTime);
@@ -67,6 +70,8 @@ function run() {
 
 
 	}
+
+	
 
 	fpsTime += deltaTime;
 	fpsCount++;
@@ -82,6 +87,14 @@ function run() {
 	context.fillText("FPS: " + fps, 5, 60, 100);
 
 
+}
+
+function drawDebug()
+{
+	context.save();
+	context.strokeRect(player1.x - player1.width/2, player1.y - player1.height/2, player1.width, player1.height);
+
+	context.restore();
 }
 
 function runSplash(deltaTime)
@@ -103,6 +116,7 @@ function runGame(deltaTime)
 	player1.Update(deltaTime);
 
 	player1.Draw(deltaTime);
+	drawDebug();
 
 
 }
