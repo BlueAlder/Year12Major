@@ -1,6 +1,6 @@
 //GLOBAL PHYSICS VARIABLES
 
-var METER = 36; //CHANGE THIS TO MAKE IT MODULAR
+var METER = TILE; //CHANGE THIS TO MAKE IT MODULAR
 var GRAVITY = METER * 9.8 * 3 ; //the '2' is the gravity multiplier
 var MAXDX = METER * 10; //max xVelocity
 var MAXDY = METER * 15; //max 
@@ -22,7 +22,7 @@ var RIGHT = 1;
 
 var Player = function()   //this is the player intialiser to create the player
 {	
-	this.image = character;
+	this.image = character; //from element loader
 
 	this.x = 320;
 	this.y = 240;
@@ -64,10 +64,10 @@ Player.prototype.Update = function(deltaTime) {
 		this.direction = RIGHT; //change direction 
 	}
 
-	if (keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP))
+	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP) && this.jumping === false))
 	{
 		jump = true;			//check for jump
-
+		this.jumping = true;
 	}
 	
 
@@ -106,19 +106,20 @@ Player.prototype.Update = function(deltaTime) {
 
 
 	if (this.y >= SCREEN_HEIGHT - this.height/2)
-	{
+	{	
+		this.jumping = false;
 		this.velocityY = 0;
 		ddy = 0;
 		this.y = SCREEN_HEIGHT - this.height/2;
 	}
 
-	if (this.x < 0){
-		this.x = SCREEN_WIDTH;
+	if (this.x < 0 - this.width/2){
+		this.x = SCREEN_WIDTH + this.width/2;
 	}
 
-	else if (this.x > SCREEN_WIDTH)
+	else if (this.x > SCREEN_WIDTH + this.width/2)
 	{
-		this.x = 0;
+		this.x = 0 - this.width/2;
 	}
 
 	if (jump)
