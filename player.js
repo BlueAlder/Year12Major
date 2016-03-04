@@ -3,9 +3,9 @@
 var METER = TILE; //CHANGE THIS TO MAKE IT MODULAR
 var GRAVITY = METER * 9.8 * 3 ; //the '2' is the gravity multiplier
 var MAXDX = METER * 10; //max xVelocity
-var MAXDY = METER * 15; //max 
+var MAXDY = METER * 20; //max 
 var ACCEL = MAXDX * 2; //acceleration in the x direction
-var JUMP  = METER * 1800; // JUMPING AMOUNT
+var JUMP  = METER * 1800; // JUMPING AMOUNT usually 1800
 var FRICTION = MAXDX * 6;
 
 
@@ -64,7 +64,7 @@ Player.prototype.Update = function(deltaTime) {
 		this.direction = RIGHT; //change direction 
 	}
 
-	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP) && this.jumping === false))
+	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP)) && this.jumping === false)
 	{
 		jump = true;			//check for jump
 		this.jumping = true;
@@ -117,7 +117,7 @@ Player.prototype.Update = function(deltaTime) {
 		this.x = SCREEN_WIDTH + this.width/2;
 	}
 
-	else if (this.x > SCREEN_WIDTH + this.width/2)
+	else if (this.x > SCREEN_WIDTH + this.width/2)		//loop around the screen
 	{
 		this.x = 0 - this.width/2;
 	}
@@ -142,7 +142,7 @@ Player.prototype.Update = function(deltaTime) {
 
 
 
-	if ( (wasleft && (this.velocityX > 0))  ||  (wasright && (this.velocityY < 0)))
+	if ( (wasleft && (this.velocityX > 0))  ||  (wasright && (this.velocityX < 0)))
 	{
 		this.velocityX = 0;
 	}

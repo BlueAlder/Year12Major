@@ -7,6 +7,8 @@ var endFrameMillis = Date.now();			//intialise the delta time
 var keyboard = new Keyboard();
 var player1 = new Player();
 
+loadCollisionMap(currentMap);
+
 //GET GLOBAL VARIABLES
 
 var SCREEN_WIDTH = canvas.width;
@@ -114,7 +116,9 @@ function runSplash(deltaTime)
 function runGame(deltaTime)
 {
 	player1.Update(deltaTime);
+	updateLevel();
 
+	drawLevel();
 	player1.Draw(deltaTime);
 	drawDebug();
 

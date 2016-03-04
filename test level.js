@@ -33,7 +33,7 @@ var testLevel = { "height":10,
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/..\/Graphics\/tiles_spritesheet.png",
+         "image":"Graphics\/tiles_spritesheet.png",
          "imageheight":936,
          "imagewidth":914,
          "margin":0,
