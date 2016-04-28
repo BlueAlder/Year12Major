@@ -37,7 +37,7 @@ var Player = function()   //this is the player intialiser to create the player
 	this.width = 67;
 	this.height = 94;
 
-	this.falling = true;
+	this.falling = false;
 	this.jumping = false;
 
 	this.direction = LEFT;
@@ -45,9 +45,40 @@ var Player = function()   //this is the player intialiser to create the player
 
 }
 
+Player.prototype.respawn = function() {
+	this.x = 320;
+	this.y = 240;
+
+	this.velocityX = 0;
+	this.velocityY = 0;
+
+	this.falling = false;
+	this.jumping = false;
+
+}
+
 Player.prototype.Update = function(deltaTime) {
 	var left, right, jump;
 	left = right = jump = false;
+
+
+	var tx = pixelToTile(this.x);
+	var ty = pixelToTile(this.y);
+
+	var nx = this.x % TILE;
+	var ny = this.y % TILE;
+
+
+	var cell 		  = cellAtTileCoord(LAYER_PLATFORMS, tx,      ty);				//this calculates all the cells around the player and they return either 1 or 0
+	var cellLeft 	  = cellAtTileCoord(LAYER_PLATFORMS, tx - 1 , ty);				//So that we can see if there is a collision 
+	var cellRight     = cellAtTileCoord(LAYER_PLATFORMS, tx + 1,  ty);
+	var cellDown      = cellAtTileCoord(LAYER_PLATFORMS, tx,      ty + 1);
+	var cellDiagRight = cellAtTileCoord(LAYER_PLATFORMS, tx + 1,  ty + 1);
+	var cellDiagLeft  = cellAtTileCoord(LAYER_PLATFORMS, tx - 1 , ty -1 );
+
+
+
+
 
 	//check for user input for left or right
 
@@ -67,7 +98,7 @@ Player.prototype.Update = function(deltaTime) {
 	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP)) && this.jumping === false)
 	{
 		jump = true;			//check for jump
-		this.jumping = true;
+		//this.jumping = true;
 	}
 	
 
@@ -100,34 +131,16 @@ Player.prototype.Update = function(deltaTime) {
 		ddx -= FRICTION;
 	}
 
-	
-	
-	//check for out of bounds
-
-
-	if (this.y >= SCREEN_HEIGHT - this.height/2)
-	{	
-		this.jumping = false;
-		this.velocityY = 0;
-		ddy = 0;
-		this.y = SCREEN_HEIGHT - this.height/2;
-	}
-
-	if (this.x < 0 - this.width/2){
-		this.x = SCREEN_WIDTH + this.width/2;
-	}
-
-	else if (this.x > SCREEN_WIDTH + this.width/2)		//loop around the screen
-	{
-		this.x = 0 - this.width/2;
-	}
-
-	if (jump)
+	if (jump && !this.jumping && !falling)
 	{
 		ddy -= JUMP;
 		this.jumping = true;
-
 	}
+
+	
+	
+
+
 
 
 	this.velocityX = bound(this.velocityX + (deltaTime * ddx), -MAXDX, MAXDX);	//updates player velocities according to the newly caalculated accel
@@ -142,9 +155,59 @@ Player.prototype.Update = function(deltaTime) {
 
 
 
+
+
 	if ( (wasleft && (this.velocityX > 0))  ||  (wasright && (this.velocityX < 0)))
 	{
 		this.velocityX = 0;
+	}
+
+	if (this.y > SCREEN_HEIGHT + 100 )
+	{
+		this.respawn();
+
+	}
+
+	if (this.velocityY > 0){
+
+		if((cellDown && !cell ) || (cellDiagRight && !cellRight && nx) || (!cellLeft && cellDiagLeft))
+			{
+				this.y = tileToPixel(ty);
+				this.velocityY = 0;
+
+				this.falling = false;
+				this.jumping = false;
+				ny = 0;
+			}
+	}
+
+	else if (this.velocityY < 0){
+		if ((cell && !cellDown) || (cellRight && !cellDiagLeft && nx) || (cellLeft && !cellDiagLeft))
+		{
+			this.y = tileToPixel(ty + 1);
+			this.velocityY = 0;
+
+			cell = cellDown;
+			cellRight = cellDiagRight;
+			ny = 0;
+		}
+	}
+
+	if (this.velocityX > 0)
+	{
+		if ((cellRight && !cell) || (cellDiagRight && !cellDown && ny))
+		{
+			this.x = tileToPixel(tx);
+			this.velocityX = 0;
+		}
+	}
+
+	else if (this.velocityX < 0){
+		if ((cell && !cellRight) || (cellDown && !cellDiagRight && ny))
+		{
+			this.x = tileToPixel(tx + 1);
+			this.velocityX = 0;
+		}
 	}
 
 }
@@ -154,5 +217,14 @@ Player.prototype.Draw = function()
 {
 	context.save();
 	context.drawImage(this.image, this.x - this.width/2, this.y - this.height/2);
+	drawDebugDot();
+	context.restore();
+}
+
+function drawDebugDot(){
+	context.save();
+	context.strokeStyle = "red";
+	context.rect(player1.x, player1.y , 2, 2);
+	context.stroke();
 	context.restore();
 }

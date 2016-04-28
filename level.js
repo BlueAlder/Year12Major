@@ -1,14 +1,14 @@
 var currentMap = testLevel; //Set the current map to the test level in the load in this case this is the test level
 var LAYER_COUNT = currentMap.layers.length;
 
-var LAYER_BACKGROUND = 0;
-var LAYER_PLATFORMS = 1;		//so we can easily differentiaite the two
+var LAYER_BACKGROUND = 1;
+var LAYER_PLATFORMS = 0;		//so we can easily differentiaite the two
 
 
 //the below variables sets the standard for the map when it loads they are then updated as the updateMap function is called
 var TILESET_PADDING  = currentMap.tilesets[0].margin;
-var TILESET_COUNT_X = 14;								//this is needed for cropping the tileset when we intiallise the map
-var TILESET_COUNT_Y = 14;
+var TILESET_COUNT_X = 12;								//this is needed for cropping the tileset when we intiallise the map
+var TILESET_COUNT_Y = 12;
 
 var TILE = currentMap.tilewidth;
 var TILESET_TILE = currentMap.tilesets[0].tilewidth;
@@ -72,6 +72,9 @@ function loadCollisionMap(_level)
 					cells[layerIdx][y][x] = 0;     //this index doesnt have a value so we set it
 				}
 
+
+				
+
 				idx ++;   //increment the index for the next data point in the layer
 
 			}
@@ -104,14 +107,20 @@ function drawLevel()
 				//the tiles in the Tiled map are base 1 (meaning a value of 0 means no tile), so subtract one form the tilset id to get the
                 //correct tile
 
-                var tileIndex = currentMap.layers[layerIdx].data[idx]- 1;
+                var tileIndex = currentMap.layers[layerIdx].data[idx] - 1;
 
                 //before we draw the map we need to know where to clip the tileset and the spacing between the tiles
-
+               
                 var sx = TILESET_PADDING + (tileIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING);
                 var sy = TILESET_PADDING + (Math.floor(tileIndex/TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
 
-                context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE, y*TILE, TILESET_TILE, TILESET_TILE );
+
+
+                context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE, (y-1)*TILE, TILESET_TILE, TILESET_TILE );
+                
+                //context.strokeStyle = 'black';
+                //context.rect(x*TILE, y*TILE, TILE, TILE);
+                //context.stroke();
 
                 idx++;
 			}
@@ -125,14 +134,59 @@ function drawLevel()
 }
 
 
+function tileToPixel(tile)		//this function finds the tile that the player is currently on and
+{								//returns the pixel that corresponds to that tile
+	return tile * TILE;
+
+}
+
+function pixelToTile(pixel)
+{
+	return Math.floor(pixel/TILE);	//this is the reverse of the above function as if you want to get the 
+}									// tile from the pixel. We floor it so we get whole integers as Tiles
 
 
 
+function cellAtPixelCoord(layer, x, y)	//this function is to check whether there is a cell at a certain spot within the parameters of the layer
+{										// and coordinates within the map
+	if ( x < 0 || x > SCREEN_WIDTH || y > 0)
+	{
+		return 1;
+	}
+
+	if (y > SCREEN_HEIGHT)							
+	{
+		return 0;
+		player.dead = true;
+	}
 
 
 
+	return cellAtTileCoord(layer, pixelToTile(x), pixelToTile(y));
 
+};
 
+function cellAtTileCoord(layer, tx, ty)			//this function gets the tile and checks whethere coords are at either side of the map and so puts a blockade
+{												//at the end of the map and also a roof on it.
+	 if (tx < 0 || tx > MAP.tw || ty < 0)
+	 {
+	 	if ( layer == LAYER_PLATFORMS)
+	 	{
+	 		return 1;
+	 	}
+
+	 	else {
+	 		return 0;
+	 	}
+	 }
+
+	if(ty >= MAP.th)
+	{
+        return 0;
+    }
+
+	return cells[layer][ty][tx];
+};
 
 
 
