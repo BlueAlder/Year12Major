@@ -62,11 +62,11 @@ Player.prototype.Update = function(deltaTime) {
 	left = right = jump = false;
 
 
-	var tx = pixelToTile(this.x);
+	var tx = pixelToTile(this.x);		//the current tile that the palyer is occupying
 	var ty = pixelToTile(this.y);
 
-	var nx = this.x % TILE;
-	var ny = this.y % TILE;
+	var nx = this.x % TILE;				//the differnce that the player is in vs the tile
+	var ny = this.y % TILE;	
 
 
 	var cell 		  = cellAtTileCoord(LAYER_PLATFORMS, tx,      ty);				//this calculates all the cells around the player and they return either 1 or 0
@@ -142,6 +142,9 @@ Player.prototype.Update = function(deltaTime) {
 
 
 
+	this.x += deltaTime * this.velocityX;		//updates the player postition according to there velocity
+	this.y += deltaTime * this.velocityY;
+
 
 	this.velocityX = bound(this.velocityX + (deltaTime * ddx), -MAXDX, MAXDX);	//updates player velocities according to the newly caalculated accel
 	this.velocityY = bound(this.velocityY + (deltaTime * ddy), -MAXDY, MAXDY);
@@ -149,25 +152,26 @@ Player.prototype.Update = function(deltaTime) {
 	
 
 
-	this.x += deltaTime * this.velocityX;		//updates the player postition according to there velocity
-	this.y += deltaTime * this.velocityY;
 
 
 
 
-
-
+	//clamp the velocity so the player doesn't stutter
 	if ( (wasleft && (this.velocityX > 0))  ||  (wasright && (this.velocityX < 0)))
 	{
 		this.velocityX = 0;
 	}
 
+
+	//check if fallen off the map
 	if (this.y > SCREEN_HEIGHT + 100 )
 	{
 		this.respawn();
 
 	}
 
+
+	//Check for a collision below
 	if (this.velocityY > 0){
 
 		if((cellDown && !cell ) || (cellDiagRight && !cellRight && nx) || (!cellLeft && cellDiagLeft))
@@ -181,6 +185,8 @@ Player.prototype.Update = function(deltaTime) {
 			}
 	}
 
+
+	//Check for a collision above
 	else if (this.velocityY < 0){
 		if ((cell && !cellDown) || (cellRight && !cellDiagLeft && nx) || (cellLeft && !cellDiagLeft))
 		{
@@ -193,6 +199,8 @@ Player.prototype.Update = function(deltaTime) {
 		}
 	}
 
+
+	//check for a collision on the right
 	if (this.velocityX > 0)
 	{
 		if ((cellRight && !cell) || (cellDiagRight && !cellDown && ny))
@@ -202,6 +210,8 @@ Player.prototype.Update = function(deltaTime) {
 		}
 	}
 
+
+	//check for a collision on the left
 	else if (this.velocityX < 0){
 		if ((cell && !cellRight) || (cellDown && !cellDiagRight && ny))
 		{
@@ -213,18 +223,11 @@ Player.prototype.Update = function(deltaTime) {
 }
 
 
-Player.prototype.Draw = function()
+Player.prototype.Draw = function(deltaTime, _cam_x, _cam_y)
 {
 	context.save();
-	context.drawImage(this.image, this.x - this.width/2, this.y - this.height/2);
-	drawDebugDot();
+	context.drawImage(this.image, this.x - this.width/2 - _cam_x , this.y - this.height/2 - _cam_y);
+	
 	context.restore();
 }
 
-function drawDebugDot(){
-	context.save();
-	context.strokeStyle = "red";
-	context.rect(player1.x, player1.y , 2, 2);
-	context.stroke();
-	context.restore();
-}

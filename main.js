@@ -14,7 +14,7 @@ loadCollisionMap(currentMap);
 var SCREEN_WIDTH = canvas.width;
 var SCREEN_HEIGHT = canvas.height;
 
-var Cam_X = 0;
+var Cam_X = 0;		//intiate the camera for scrolling map
 var Cam_Y = 0;
 var Cam_ratio;
 
@@ -91,11 +91,18 @@ function run() {
 
 }
 
-function drawDebug()
+function drawDebug(_cam_x, _cam_y)
 {
 	context.save();
-	context.strokeRect(player1.x - player1.width/2, player1.y - player1.height/2, player1.width, player1.height);
+	context.strokeRect(player1.x - player1.width/2 - _cam_x, player1.y - player1.height/2 - _cam_y, player1.width, player1.height);
 
+	context.restore();
+
+	context.save();
+	
+	context.fillStyle = "red";
+	context.fillRect(player1.x - _cam_x, player1.y - _cam_y , 5, 5);
+	
 	context.restore();
 }
 
@@ -118,9 +125,11 @@ function runGame(deltaTime)
 	player1.Update(deltaTime);
 	updateLevel();
 
-	drawLevel();
-	player1.Draw(deltaTime);
-	drawDebug();
+	updateCamera();
+
+	drawLevel(Cam_X, Cam_Y);
+	player1.Draw(deltaTime, Cam_X, Cam_Y);
+	drawDebug(Cam_X, Cam_Y);
 
 
 }
@@ -133,6 +142,42 @@ function runWin(deltaTime)
 function runEndGame(deltaTime)
 {
 	
+}
+
+function updateCamera()
+{
+	var left_stop = 0;
+	var top_stop = 0;
+	var right_stop = TILE * MAP.tw - SCREEN_WIDTH/2;
+	var bottom_stop = TILE * MAP.th - SCREEN_HEIGHT/2;
+
+	var new_pos_x = player1.x - SCREEN_WIDTH/2;
+	var new_pos_y = player1.y - SCREEN_HEIGHT/2;
+
+	if (new_pos_x < left_stop)
+	{
+		new_pos_x = left_stop;
+	}
+
+	else if (new_pos_x > right_stop)
+	{
+		new_pos_x = right_stop;
+	}
+
+
+
+	if (new_pos_y < top_stop)
+	{
+		new_pos_y = top_stop;
+	}
+
+	else if (new_pos_y > bottom_stop)
+	{
+		new_pos_y = bottom_stop;
+	}
+
+	Cam_X = new_pos_x;
+	Cam_Y = new_pos_y;
 }
 
 //This function calls the 'run' function 60 times a second so that the game is running at 60 FPS, it requests the animation frame

@@ -94,7 +94,7 @@ function updateLevel()
 
 
 
-function drawLevel()
+function drawLevel(_cam_x, _cam_y)
 {
 	for (var layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx ++)
 	{
@@ -116,7 +116,7 @@ function drawLevel()
 
 
 
-                context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE, (y-1)*TILE, TILESET_TILE, TILESET_TILE );
+                context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE - _cam_x, (y-1)*TILE - _cam_y, TILESET_TILE, TILESET_TILE );
                 
                 //context.strokeStyle = 'black';
                 //context.rect(x*TILE, y*TILE, TILE, TILE);
