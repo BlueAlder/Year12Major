@@ -22,7 +22,7 @@ var SCREEN_HEIGHT = canvas.height;
 
 var Cam_X = 0;		//intiate the camera for scrolling map
 var Cam_Y = 0;
-var Cam_ratio;
+var Cam_ratio = 0.05;
 
 var GAMESTATE_SPLASH = 0;				//create variables for gamestates so not confused
 var GAMESTATE_GAME = 1;
@@ -69,6 +69,9 @@ function run() {
 	context.fillStyle = "grey";
 	context.fillRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	context.drawImage(background, 0, 0);
+
+
 
 
 	switch(curGameState)
@@ -88,6 +91,8 @@ function run() {
 
 
 	}
+
+	
 
 	
 
@@ -136,6 +141,8 @@ function drawDebug(_cam_x, _cam_y)
 
 	
 	context.restore();
+
+
 
 
 }
@@ -237,9 +244,16 @@ function updateCamera()
 		new_pos_y = bottom_stop;
 	}
 
-	Cam_X = new_pos_x;
-	Cam_Y = new_pos_y;
+	Cam_X = lerp(Cam_X, new_pos_x, Cam_ratio);
+	Cam_Y = lerp(Cam_Y, new_pos_y, Cam_ratio);
+
+	
 }
+
+function lerp(left_value, right_value, ratio)
+{
+	return left_value + ratio * ( right_value - left_value);
+};
 
 //This function calls the 'run' function 60 times a second so that the game is running at 60 FPS, it requests the animation frame
 //depending on whether the browser supports it or just manulaly sets it.

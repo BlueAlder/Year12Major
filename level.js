@@ -113,7 +113,7 @@ function drawLevel(_cam_x, _cam_y)
 
                 //before we draw the map we need to know where to clip the tileset and the spacing between the tiles
                
-                var sx = TILESET_PADDING + (tileIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING);
+                var sx = TILESET_PADDING + (tileIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING) ;
                 var sy = TILESET_PADDING + (Math.floor(tileIndex/TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
 
 
