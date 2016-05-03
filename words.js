@@ -13,16 +13,16 @@ function populateWordList(file)		//this function loads a text file from a server
 			{
 				var allText = rawFile.responseText;
 				Arr_word_list = allText.split('\n');
-				console.log(Arr_word_list);
-							}
+
 		}
 	}
 
 
+	}
 	rawFile.send(null);
 }
 
-function selectWord(wordLength){
+function selectWord(wordLength){			//this function randomly selects a word from the array of possible words with the correct word length
 	
 	do 
 	{
@@ -32,4 +32,28 @@ function selectWord(wordLength){
 	} while (Arr_word_list[randIndex].length != wordLength);
 
 	return Arr_word_list[randIndex];
+}
+
+function scrambleWord (word)		//this scrambles the word chosen to be placed on the map 
+									// it then returns the array of words jumbled
+{
+	wordLetters = word.split("");
+	console.log(wordLetters);
+
+	counter = wordLetters.length;
+
+	while( counter > 0)
+	{
+		index = Math.floor(Math.random() * counter);
+		counter -- ;
+
+		var temp = wordLetters[counter];
+		wordLetters[counter] = wordLetters[index];
+		wordLetters[index] = temp;
+
+
+	}
+
+	console.log(wordLetters);
+	return wordLetters;	
 }

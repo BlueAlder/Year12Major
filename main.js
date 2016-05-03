@@ -11,8 +11,11 @@ var wordList = "http://bluealder.github.io/test.txt";		//define location of list
 var Arr_word_list = []
 populateWordList(wordList);									//convert this txt file to array
 
+var wordToSpell;
+var scrambledWord;
+
 	
-loadMap();
+
 
 
 //GET GLOBAL VARIABLES
@@ -54,9 +57,9 @@ function getDeltaTime(){
 function loadMap() 
 {
 	loadCollisionMap(currentMap);		//loads collision map of the current map
-	var word = selectWord(6);			
-	console.log(word);
-	
+	wordToSpell = selectWord(currentMap.letters);			
+	console.log(wordToSpell);
+	scrambledWord = scrambleWord(wordToSpell);
 
 }
 
@@ -66,10 +69,14 @@ function run() {
 
 	var deltaTime = getDeltaTime();
 
-	context.fillStyle = "grey";
+	context.fillStyle = "red";
 	context.fillRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+
+	context.save();
+	context.globalAlpha = "0.5"
 	context.drawImage(background, 0, 0);
+	context.restore();
 
 
 
@@ -105,9 +112,11 @@ function run() {
 		fpsCount = 0;
 	}
 
-	context.fillStyle = "#f00";
+	context.fillStyle = "blue";
 	context.font="14px Arial";
-	context.fillText("FPS: " + fps, 5, 60, 100);
+	context.fillText("FPS: " + fps, 5, 60);
+
+	context.fillText("Current Word: " + wordToSpell, 5, 80, 100);
 
 
 }
@@ -194,7 +203,7 @@ function runGame(deltaTime)
 
 	updateCamera();
 
-	drawLevel(Cam_X, Cam_Y);
+	drawLevel(Cam_X, Cam_Y, scrambledWord);
 	player1.Draw(deltaTime, Cam_X, Cam_Y);
 	drawDebug(Cam_X, Cam_Y);
 	debug_draw_map(cells, Cam_X, Cam_Y);
@@ -292,3 +301,5 @@ function lerp(left_value, right_value, ratio)
 }
 )();
 window.onEachFrame(run);
+
+loadMap();

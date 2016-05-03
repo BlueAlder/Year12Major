@@ -68,8 +68,26 @@ var testLevel = { "height":15,
          "tilecount":156,
          "tileheight":70,
          "tilewidth":70
+        }, 
+        {
+         "firstgid":157,
+         "image":"Graphics\/alphabet tilset.png",
+         "imageheight":420,
+         "imagewidth":420,
+         "margin":0,
+         "name":"alphabet tilset",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":36,
+         "tileheight":70,
+         "tilewidth":70
         }],
  "tilewidth":35,
  "version":1,
- "width":50
+ "width":50,
+
+ "letters": 4
 }

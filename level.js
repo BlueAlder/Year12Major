@@ -16,6 +16,14 @@ var TILE = currentMap.tilewidth;
 var TILESET_TILE = currentMap.tilesets[0].tilewidth;
 var TILESET_SPACING = currentMap.tilesets[0].spacing;
 
+//get the properties for the alphabet tileset
+var ALPHATILE_PADDING = currentMap.tilesets[1].margin;
+var ALPHATILE_COUNT_X = 6;
+var ALPHATILE_COUNT_Y = 6;
+
+var ALPHATILE_TILE = currentMap.tilesets[1].tilewidth;
+var ALPHATILE_SPACING = currentMap.tilesets[1].spacing;
+
 var MAP = 
 {
 	tw: currentMap.layers[LAYER_PLATFORMS].width,
@@ -96,8 +104,10 @@ function updateLevel()
 
 
 
-function drawLevel(_cam_x, _cam_y)
+function drawLevel(_cam_x, _cam_y, scramble)
 {
+	var tempScram = scramble.slice(0);
+
 	for (var layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx ++)
 	{
 		var idx = 0;
@@ -106,20 +116,41 @@ function drawLevel(_cam_x, _cam_y)
 		{
 			for (var x = 0; x < currentMap.layers[layerIdx].width; x++)
 			{
-				//the tiles in the Tiled map are base 1 (meaning a value of 0 means no tile), so subtract one form the tilset id to get the
-                //correct tile
+				
+				var tileIndex = currentMap.layers[layerIdx].data[idx];
 
-                var tileIndex = currentMap.layers[layerIdx].data[idx] - 1;
+                if (layerIdx  === LAYER_LETTERS)
+                {
+                	if( tileIndex  != 0)
+                	{
+                		alphaTileIdx = alphabet.indexOf(tempScram[0])  ;
 
-                //before we draw the map we need to know where to clip the tileset and the spacing between the tiles
+                		sx = ALPHATILE_PADDING + (alphaTileIdx % ALPHATILE_COUNT_X) * (TILESET_TILE + ALPHATILE_SPACING);
+                		sy =  ALPHATILE_PADDING + (Math.floor(alphaTileIdx/ALPHATILE_COUNT_Y)) * (TILESET_TILE + ALPHATILE_SPACING);
+
+                		context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE - _cam_x, (y-1)*TILE - _cam_y, TILESET_TILE, TILESET_TILE);
+
+                		tempScram.splice(0, 1);
+                	}
+                }
+
+                else{
+
+                	//the tiles in the Tiled map are base 1 (meaning a value of 0 means no tile), so subtract one form the tilset id to get the
+               	 	//correct tile
+
+                	tileIndex = tileIndex - 1;
+
+               		 //before we draw the map we need to know where to clip the tileset and the spacing between the tiles
                
-                var sx = TILESET_PADDING + (tileIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING) ;
-                var sy = TILESET_PADDING + (Math.floor(tileIndex/TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
+               		var sx = TILESET_PADDING + (tileIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING) ;
+               		var sy = TILESET_PADDING + (Math.floor(tileIndex/TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
+
+                	context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE - _cam_x, (y-1)*TILE - _cam_y, TILESET_TILE, TILESET_TILE );
+                	
+                }
 
 
-
-                context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE - _cam_x, (y-1)*TILE - _cam_y, TILESET_TILE, TILESET_TILE );
-                
                 //context.strokeStyle = 'black';
                 //context.rect(x*TILE, y*TILE, TILE, TILE);
                 //context.stroke();
