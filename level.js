@@ -1,8 +1,10 @@
 var currentMap = testLevel; //Set the current map to the test level in the load in this case this is the test level
 var LAYER_COUNT = currentMap.layers.length;
 
-var LAYER_BACKGROUND = 1;
-var LAYER_PLATFORMS = 0;		//so we can easily differentiaite the two
+var LAYER_BACKGROUND = 0;
+var LAYER_PLATFORMS = 1;		//so we can easily differentiaite the two
+var LAYER_PLACEMENTS = 2;
+var LAYER_LETTERS = 3;								//also in levels of layers made in tiled
 
 
 //the below variables sets the standard for the map when it loads they are then updated as the updateMap function is called

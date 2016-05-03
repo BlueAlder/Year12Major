@@ -74,7 +74,9 @@ Player.prototype.Update = function(deltaTime) {
 	var cellRight     = cellAtTileCoord(LAYER_PLATFORMS, tx + 1,  ty);
 	var cellDown      = cellAtTileCoord(LAYER_PLATFORMS, tx,      ty + 1);
 	var cellDiagRight = cellAtTileCoord(LAYER_PLATFORMS, tx + 1,  ty + 1);
-	var cellDiagLeft  = cellAtTileCoord(LAYER_PLATFORMS, tx - 1 , ty -1 );
+	var cellDiagLeft  = cellAtTileCoord(LAYER_PLATFORMS, tx - 1 , ty + 1 );
+
+
 
 
 
