@@ -42,6 +42,8 @@ var Player = function()   //this is the player intialiser to create the player
 
 	this.direction = LEFT;
 
+	this.inventory = 0;
+
 
 }
 
@@ -75,6 +77,8 @@ Player.prototype.Update = function(deltaTime) {
 	var cellDown      = cellAtTileCoord(LAYER_PLATFORMS, tx,      ty + 1);
 	var cellDiagRight = cellAtTileCoord(LAYER_PLATFORMS, tx + 1,  ty + 1);
 	var cellDiagLeft  = cellAtTileCoord(LAYER_PLATFORMS, tx - 1 , ty + 1 );
+
+	var cellLetter    = cellAtTileCoord(LAYER_LETTERS,   tx, 	  ty);		//this checks whether player is on a letter cell
 
 
 
@@ -222,8 +226,18 @@ Player.prototype.Update = function(deltaTime) {
 		}
 	}
 
+	this.inventoryCheck();
+
 }
 
+
+Player.prototype.inventoryCheck = function ()
+{
+	if(keyboard.isKeyDown(keyboard.KEY_E) && cellLetter)
+	{
+
+	}
+}
 
 Player.prototype.Draw = function(deltaTime, _cam_x, _cam_y)
 {
