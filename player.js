@@ -243,17 +243,17 @@ Player.prototype.inventoryCheck = function ()
 
 	if(keyboard.isKeyDown(keyboard.KEY_E) && cellLetter )
 	{
-		for (var letterIdx = 0; letterIdx < letterCoords.length ; letterIdx ++)
+		for (var letterIdx = 0; letterIdx < letterObj.length ; letterIdx ++)
 		{					//x tile component				//y tile component
-			if ((this.tx === letterCoords[letterIdx][1] 	&& this.ty === letterCoords[letterIdx][2]     ) ||
-				(this.tx === letterCoords[letterIdx][1] + 1 && this.ty === letterCoords[letterIdx][2]     ) ||
-				(this.tx === letterCoords[letterIdx][1]     && this.ty === letterCoords[letterIdx][2] + 1 ) ||
-				(this.tx === letterCoords[letterIdx][1] + 1 && this.ty === letterCoords[letterIdx][2] + 1 )  )
+			if ((this.tx === letterObj[letterIdx].xTILE 	&& this.ty === letterObj[letterIdx].yTILE     ) ||
+				(this.tx === letterObj[letterIdx].xTILE + 1 && this.ty === letterObj[letterIdx].yTILE     ) ||
+				(this.tx === letterObj[letterIdx].xTILE     && this.ty === letterObj[letterIdx].yTILE + 1 ) ||
+				(this.tx === letterObj[letterIdx].xTILE + 1 && this.ty === letterObj[letterIdx].yTILE + 1 )  )
 			{
 				if (!this.inventory)
 				{
-				this.inventory = letterCoords[letterIdx][0];
-				drawInstruction[letterIdx] = false;
+				this.inventory = letterObj[letterIdx].letter;
+				letterObj[letterIdx].draw = false;
 
 				console.log(this.inventory);
 

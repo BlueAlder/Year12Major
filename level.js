@@ -139,13 +139,17 @@ function drawLevel(_cam_x, _cam_y, scramble)
                 		var yCoord = (y-1)*TILE ;
 
 
-                		if (drawInstruction[scrambleIdx] === true)
+                		
+                		if ( letterObj[scrambleIdx].draw)
                 		{
-                			context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, xCoord - _cam_x, yCoord - _cam_y, TILESET_TILE, TILESET_TILE);
-                			
+                 			context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, xCoord - _cam_x, yCoord - _cam_y, TILESET_TILE, TILESET_TILE);
+               			
                 		}
+                			
+                		
+                		letterObj[scrambleIdx].updateCoords(xCoord, yCoord, scrambleIdx, _cam_x, _cam_y); 		//updates coordinates of letter object
+                		
 
-                		letterCoords.push([scramble[scrambleIdx], pixelToTile(xCoord), pixelToTile(yCoord)]) ;	//push the letter and x and y coords of the letter to save 
                 		scrambleIdx++;												//coords of placed letter
                 		
                 	}

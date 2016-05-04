@@ -221,6 +221,8 @@ function runSplash(deltaTime)
 	var textMeasure = context.measureText("Get The Code");
 	context.fillText("Get The Code", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2 - 100);
 
+	context.fillText("Press [ENTER] to Begin", SCREEN_WIDTH/2 - 250, SCREEN_HEIGHT/2 + 200)
+
 	if (keyboard.isKeyDown(keyboard.KEY_ENTER)) 
 	{
 		curGameState = GAMESTATE_GAME;
