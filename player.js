@@ -1,7 +1,7 @@
 //GLOBAL PHYSICS VARIABLES
 
 var METER = TILE; //CHANGE THIS TO MAKE IT MODULAR
-var GRAVITY = METER * 9.8 * 3 ; //the '2' is the gravity multiplier
+var GRAVITY = METER * 9.8 * 2 ; //the '2' is the gravity multiplier
 var MAXDX = METER * 10; //max xVelocity
 var MAXDY = METER * 20; //max 
 var ACCEL = MAXDX * 2; //acceleration in the x direction
@@ -63,6 +63,8 @@ Player.prototype.Update = function(deltaTime) {
 	var left, right, jump;
 	left = right = jump = false;
 
+	this.interaction = false;
+
 
 	this.tx = pixelToTile(this.x);		//the current tile that the palyer is occupying
 	this.ty = pixelToTile(this.y);
@@ -108,6 +110,11 @@ Player.prototype.Update = function(deltaTime) {
 	{
 		jump = true;			//check for jump
 		//this.jumping = true;
+	}
+
+	if (keyboard.isKeyDown(keyboard.KEY_E) || keyboard.isKeyDown(keyboard.KEY_CTRL))
+	{
+		this.interaction = true;
 	}
 	
 
@@ -231,24 +238,53 @@ Player.prototype.Update = function(deltaTime) {
 
 	this.inventoryCheck();
 
+	this.placementCheck();
+
+}
+
+Player.prototype.placementCheck = function ()
+{
+	var cellPlace   = cellAtTileCoord(LAYER_PLACEMENTS,   this.tx, 	  this.ty);	
+
+	if (this.interaction && cellPlace && this.inventory != 0) 
+	{
+		for(var placementIdx = 0; placementIdx < placementObj.length; placementIdx++)
+		{
+			if ((this.tx === placementObj[placementIdx].xTILE 	  && this.ty === placementObj[placementIdx].yTILE     ) ||
+				(this.tx === placementObj[placementIdx].xTILE + 1 && this.ty === placementObj[placementIdx].yTILE     ) ||
+				(this.tx === placementObj[placementIdx].xTILE     && this.ty === placementObj[placementIdx].yTILE + 1 ) ||		//checks the four surround tiles since 1 tileset tile is
+				(this.tx === placementObj[placementIdx].xTILE + 1 && this.ty === placementObj[placementIdx].yTILE + 1 )  )		// one TILE
+			{	
+				if(!placementObj[placementIdx].placed)
+				{
+					placementObj[placementIdx].letterPlaced = this.inventory;
+					placementObj[placementIdx].placed = true;
+
+					this.inventory = 0;
+
+				}
+
+			}
+		}
+	}
 }
 
 
 Player.prototype.inventoryCheck = function ()
 {
 	var cellLetter    = cellAtTileCoord(LAYER_LETTERS,   this.tx, 	  this.ty);		//this checks whether player is on a letter cell
-	var cellLetterUp  = cellAtTileCoord(LAYER_LETTERS, 	 this.tx,     this.ty - 1);
-	var cellLetterRight = cellAtTileCoord(LAYER_LETTERS, this.tx + 1, 	  this.ty );
-	var cellLetterDiagRight = cellAtTileCoord(LAYER_LETTERS, this.tx + 1, this.ty - 1);
+	//var cellLetterUp  = cellAtTileCoord(LAYER_LETTERS, 	 this.tx,     this.ty - 1);
+	//var cellLetterRight = cellAtTileCoord(LAYER_LETTERS, this.tx + 1, 	  this.ty );
+	//var cellLetterDiagRight = cellAtTileCoord(LAYER_LETTERS, this.tx + 1, this.ty - 1);
 
-	if(keyboard.isKeyDown(keyboard.KEY_E) && cellLetter )
+	if(this.interaction && cellLetter )
 	{
 		for (var letterIdx = 0; letterIdx < letterObj.length ; letterIdx ++)
 		{					//x tile component				//y tile component
 			if ((this.tx === letterObj[letterIdx].xTILE 	&& this.ty === letterObj[letterIdx].yTILE     ) ||
 				(this.tx === letterObj[letterIdx].xTILE + 1 && this.ty === letterObj[letterIdx].yTILE     ) ||
-				(this.tx === letterObj[letterIdx].xTILE     && this.ty === letterObj[letterIdx].yTILE + 1 ) ||
-				(this.tx === letterObj[letterIdx].xTILE + 1 && this.ty === letterObj[letterIdx].yTILE + 1 )  )
+				(this.tx === letterObj[letterIdx].xTILE     && this.ty === letterObj[letterIdx].yTILE + 1 ) ||		//checks the four surround tiles since 1 tileset tile is
+				(this.tx === letterObj[letterIdx].xTILE + 1 && this.ty === letterObj[letterIdx].yTILE + 1 )  )		// one TILE
 			{
 				if (!this.inventory)
 				{

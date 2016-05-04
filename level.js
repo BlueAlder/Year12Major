@@ -111,7 +111,8 @@ function drawLevel(_cam_x, _cam_y, scramble)
 {	
 	
 	var scrambleIdx = 0;
-	letterCoords = [];
+	var placementIdx = 0;
+
 	
 	//var tempScram = scramble.slice(0);
 
@@ -129,8 +130,8 @@ function drawLevel(_cam_x, _cam_y, scramble)
                 if (layerIdx  === LAYER_LETTERS)
                 {
                 	if( tileIndex  != 0)
-                	{
-                		alphaTileIdx = alphabet.indexOf(scramble[scrambleIdx])  ;
+                	{	
+                		var alphaTileIdx = alphabet.indexOf(scramble[scrambleIdx])  ;
 
                 		var sx = ALPHATILE_PADDING + (alphaTileIdx % ALPHATILE_COUNT_X) * (TILESET_TILE + ALPHATILE_SPACING);			//set cliping for alphatileset
                 		var sy =  ALPHATILE_PADDING + (Math.floor(alphaTileIdx/ALPHATILE_COUNT_Y)) * (TILESET_TILE + ALPHATILE_SPACING);
@@ -147,11 +148,52 @@ function drawLevel(_cam_x, _cam_y, scramble)
                 		}
                 			
                 		
-                		letterObj[scrambleIdx].updateCoords(xCoord, yCoord, scrambleIdx, _cam_x, _cam_y); 		//updates coordinates of letter object
+                		letterObj[scrambleIdx].updateCoords(xCoord, yCoord, _cam_x, _cam_y); 		//updates coordinates of letter object
                 		
 
                 		scrambleIdx++;												//coords of placed letter
                 		
+                	}
+                }
+
+                else if (layerIdx === LAYER_PLACEMENTS)
+                {
+                	if (tileIndex != 0)
+                	{	
+                		tileIndex = tileIndex - 1; //base 1 so we -1 see below
+
+                		var xCoord = x*TILE;
+               			var yCoord = (y-1)*TILE;
+
+                		if (placementObj[placementIdx].placed)
+                		{
+                			var alphaTileIdx = alphabet.indexOf(placementObj[placementIdx].letterPlaced);
+
+                			var sx = ALPHATILE_PADDING + (alphaTileIdx % ALPHATILE_COUNT_X) * (TILESET_TILE + ALPHATILE_SPACING);			//set cliping for alphatileset
+                			var sy =  ALPHATILE_PADDING + (Math.floor(alphaTileIdx/ALPHATILE_COUNT_Y)) * (TILESET_TILE + ALPHATILE_SPACING);
+
+                			context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, xCoord - _cam_x, yCoord - _cam_y, TILESET_TILE, TILESET_TILE);
+
+
+
+                		}
+
+                		
+                		var sx = TILESET_PADDING + (tileIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING) ;
+               			var sy = TILESET_PADDING + (Math.floor(tileIndex/TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
+
+               			context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, xCoord - _cam_x, yCoord - _cam_y, TILESET_TILE, TILESET_TILE);
+                		
+
+                		placementObj[placementIdx].updateCoords(xCoord, yCoord, _cam_x, _cam_y);
+
+               			
+
+               			
+
+
+
+                		placementIdx++;
                 	}
                 }
 
@@ -259,4 +301,20 @@ function bound(value, min, max )
 	}
 
 	return value;
+}
+
+function lengthOfWordInMap()
+{
+	var data = currentMap.layers[LAYER_PLACEMENTS].data;
+	var num = 0;
+
+	for (var i = 0; i < data.length; i++)
+	{
+		if (data[i] != 0)
+		{
+			num ++;
+		}
+	}
+
+	return num;
 }

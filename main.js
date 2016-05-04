@@ -33,6 +33,8 @@ var GAMESTATE_ENDGAME = 2;
 var GAMESTATE_WIN = 3;
 var curGameState = GAMESTATE_SPLASH;	//set initial game state
 
+var mapWordLength;
+
 var fps = 0;
 var fpsCount = 0;
 var fpsTime = 0;
@@ -55,11 +57,12 @@ function getDeltaTime(){
 }
 
 function loadMap() 
-{
+{	
+	mapWordLength = lengthOfWordInMap();
 	loadCollisionMap(currentMap);		//loads collision map of the current map
-	wordToSpell = selectWord(currentMap.letters);			
-	console.log(wordToSpell);
+	wordToSpell = selectWord(mapWordLength);			
 	scrambledWord = scrambleWord(wordToSpell);
+	definePlacements(mapWordLength);
 
 }
 
@@ -135,7 +138,7 @@ function drawDebug(_cam_x, _cam_y)
 	context.fillStyle = "red";
 	context.fillRect(player1.x - _cam_x, player1.y - _cam_y , 5, 5);
 
-	var draw_cells = false;
+	var draw_cells = true;
 
 	if (draw_cells){
 
