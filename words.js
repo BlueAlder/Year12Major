@@ -1,4 +1,6 @@
 var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+var drawInstruction = [] ;
+
 
 function populateWordList(file)		//this function loads a text file from a server and converts it too an array
 								//the text in this file are the list of words possible
@@ -52,6 +54,13 @@ function scrambleWord (word)		//this scrambles the word chosen to be placed on t
 		wordLetters[index] = temp;
 
 
+	}
+
+	var lenWordLetters = wordLetters.length;
+
+	for (var i = 0; i < lenWordLetters; i++)		//this pushes the instructions to draw them and set them all to true
+	{
+		drawInstruction.push(true);
 	}
 
 	console.log(wordLetters);

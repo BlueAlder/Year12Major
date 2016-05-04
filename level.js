@@ -30,6 +30,9 @@ var MAP =
 	th: currentMap.layers[LAYER_PLATFORMS].height
 };
 
+
+var letterCoords = [];
+
 //for cell collision we are going to make the collision cells 35 x 35
 //as the tiles are 70x70 there are 4 collision cells to each tile
 
@@ -105,8 +108,12 @@ function updateLevel()
 
 
 function drawLevel(_cam_x, _cam_y, scramble)
-{
-	var tempScram = scramble.slice(0);
+{	
+	
+	var scrambleIdx = 0;
+	letterCoords = [];
+	
+	//var tempScram = scramble.slice(0);
 
 	for (var layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx ++)
 	{
@@ -123,14 +130,24 @@ function drawLevel(_cam_x, _cam_y, scramble)
                 {
                 	if( tileIndex  != 0)
                 	{
-                		alphaTileIdx = alphabet.indexOf(tempScram[0])  ;
+                		alphaTileIdx = alphabet.indexOf(scramble[scrambleIdx])  ;
 
-                		sx = ALPHATILE_PADDING + (alphaTileIdx % ALPHATILE_COUNT_X) * (TILESET_TILE + ALPHATILE_SPACING);
-                		sy =  ALPHATILE_PADDING + (Math.floor(alphaTileIdx/ALPHATILE_COUNT_Y)) * (TILESET_TILE + ALPHATILE_SPACING);
+                		var sx = ALPHATILE_PADDING + (alphaTileIdx % ALPHATILE_COUNT_X) * (TILESET_TILE + ALPHATILE_SPACING);			//set cliping for alphatileset
+                		var sy =  ALPHATILE_PADDING + (Math.floor(alphaTileIdx/ALPHATILE_COUNT_Y)) * (TILESET_TILE + ALPHATILE_SPACING);
 
-                		context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE - _cam_x, (y-1)*TILE - _cam_y, TILESET_TILE, TILESET_TILE);
+                		var xCoord = x*TILE ;			//set x and y coords for each tile
+                		var yCoord = (y-1)*TILE ;
 
-                		tempScram.splice(0, 1);
+
+                		if (drawInstruction[scrambleIdx] === true)
+                		{
+                			context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, xCoord - _cam_x, yCoord - _cam_y, TILESET_TILE, TILESET_TILE);
+                			
+                		}
+
+                		letterCoords.push([scramble[scrambleIdx], pixelToTile(xCoord), pixelToTile(yCoord)]) ;	//push the letter and x and y coords of the letter to save 
+                		scrambleIdx++;												//coords of placed letter
+                		
                 	}
                 }
 

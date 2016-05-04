@@ -116,7 +116,9 @@ function run() {
 	context.font="14px Arial";
 	context.fillText("FPS: " + fps, 5, 60);
 
-	context.fillText("Current Word: " + wordToSpell, 5, 80, 100);
+	context.fillText("Current Word: " + wordToSpell, 5, 80, 200);
+
+	context.fillText("Inventory: " + player1.inventory, 5, 100, 100);
 
 
 }
@@ -139,7 +141,7 @@ function drawDebug(_cam_x, _cam_y)
 
 
 	context.strokeStyle = 'red';
-	context.strokeRect(player1.x - _cam_x, player1.y - _cam_y, TILE, TILE);		//DRAW CELL
+	context.fillRect(player1.x - _cam_x, player1.y - _cam_y, TILE, TILE);		//DRAW CELL
 	context.strokeRect(player1.x - _cam_x - TILE, player1.y - _cam_y, TILE, TILE);		//DRAW CELL left
 	context.strokeRect(player1.x - _cam_x + TILE, player1.y - _cam_y, TILE, TILE);		//DRAW CELL RIGHT
 	context.strokeRect(player1.x - _cam_x, player1.y - _cam_y + TILE, TILE, TILE);		//DRAW CELL DOWN
@@ -151,6 +153,18 @@ function drawDebug(_cam_x, _cam_y)
 	
 	context.restore();
 
+	var drawLetterCell = false;
+
+
+	if (drawLetterCell)
+	{
+		for(var i = 0; i < letterCoords.length ; i++)
+		{	
+			context.fillStyle = "blue";
+			context.fillRect(tileToPixel(letterCoords[i][1]) - _cam_x, tileToPixel(letterCoords[i][2]) - _cam_y, TILE, TILE);
+		}
+	}
+
 
 
 
@@ -159,26 +173,44 @@ function drawDebug(_cam_x, _cam_y)
 function debug_draw_map(input_cells, _cam_x, _cam_y)
 {
 
-    context.save();
-    context.strokeStyle = "green";
-    layerIdx = LAYER_PLATFORMS;
 
-       
-        for(var y = 0; y < input_cells[layerIdx].length; y++)
-        {
-            for(var x = 0; x < input_cells[layerIdx][y].length; x++)
-            {
-                if(input_cells[layerIdx][y][x] !=  0)
-                {
-                    context.strokeRect(x * TILE- _cam_x, y * TILE - _cam_y, TILE, TILE);
-                   
-                }
-            }
-        }
-    
-    //context.stroke();
-    //context.clearRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    context.restore();
+	var drawMapDebug = false
+	if (drawMapDebug)
+	{
+
+
+
+	    context.save();
+
+
+	    for (var layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
+	    {
+
+	        for(var y = 0; y < input_cells[layerIdx].length; y++)
+	        {
+	            for(var x = 0; x < input_cells[layerIdx][y].length; x++)
+	            {
+	                if(input_cells[layerIdx][y][x] !=  0)
+	                {
+	                	if (layerIdx == LAYER_PLATFORMS)
+	                	{	
+	                		context.strokeStyle = "green";
+	                	}
+
+	                	else if (layerIdx == LAYER_LETTERS)
+	                	{
+	                		context.strokeStyle = "yellow";
+	                	}
+	                    
+	                    context.strokeRect(x * TILE- _cam_x, y * TILE - _cam_y, TILE, TILE);
+
+	                }
+	            }
+	        }
+	    }
+	    
+	    context.restore();
+	}
 }
 
 
@@ -199,14 +231,16 @@ function runSplash(deltaTime)
 function runGame(deltaTime)
 {
 	player1.Update(deltaTime);
+	updateCamera();
 	updateLevel();
 
-	updateCamera();
 
 	drawLevel(Cam_X, Cam_Y, scrambledWord);
 	player1.Draw(deltaTime, Cam_X, Cam_Y);
 	drawDebug(Cam_X, Cam_Y);
 	debug_draw_map(cells, Cam_X, Cam_Y);
+
+
 
 
 }

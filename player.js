@@ -64,44 +64,47 @@ Player.prototype.Update = function(deltaTime) {
 	left = right = jump = false;
 
 
-	var tx = pixelToTile(this.x);		//the current tile that the palyer is occupying
-	var ty = pixelToTile(this.y);
+	this.tx = pixelToTile(this.x);		//the current tile that the palyer is occupying
+	this.ty = pixelToTile(this.y);
 
 	var nx = this.x % TILE;				//the differnce that the player is in vs the tile
 	var ny = this.y % TILE;	
 
 
-	var cell 		  = cellAtTileCoord(LAYER_PLATFORMS, tx,      ty);				//this calculates all the cells around the player and they return either 1 or 0
-	var cellLeft 	  = cellAtTileCoord(LAYER_PLATFORMS, tx - 1 , ty);				//So that we can see if there is a collision 
-	var cellRight     = cellAtTileCoord(LAYER_PLATFORMS, tx + 1,  ty);
-	var cellDown      = cellAtTileCoord(LAYER_PLATFORMS, tx,      ty + 1);
-	var cellDiagRight = cellAtTileCoord(LAYER_PLATFORMS, tx + 1,  ty + 1);
-	var cellDiagLeft  = cellAtTileCoord(LAYER_PLATFORMS, tx - 1 , ty + 1 );
+	var cell 		  = cellAtTileCoord(LAYER_PLATFORMS, this.tx,      this.ty);				//this calculates all the cells around the player and they return either 1 or 0
+	var cellLeft 	  = cellAtTileCoord(LAYER_PLATFORMS, this.tx - 1 , this.ty);				//So that we can see if there is a collision 
+	var cellRight     = cellAtTileCoord(LAYER_PLATFORMS, this.tx + 1,  this.ty);
+	var cellDown      = cellAtTileCoord(LAYER_PLATFORMS, this.tx,      this.ty + 1);
+	var cellDiagRight = cellAtTileCoord(LAYER_PLATFORMS, this.tx + 1,  this.ty + 1);
+	var cellDiagLeft  = cellAtTileCoord(LAYER_PLATFORMS, this.tx - 1 , this.ty + 1 );
 
-	var cellLetter    = cellAtTileCoord(LAYER_LETTERS,   tx, 	  ty);		//this checks whether player is on a letter cell
-
-
+	
 
 
+	//context.fillRect(this.x, this.y, 35,35);
 
 
 
 	//check for user input for left or right
 
-	if(keyboard.isKeyDown(keyboard.KEY_LEFT))
+	if(keyboard.isKeyDown(keyboard.KEY_LEFT) || 
+	   keyboard.isKeyDown(keyboard.KEY_A))
 	{
 		left = true;
 		this.direction = LEFT;	//change direction 
 
 	}
 
-	else if (keyboard.isKeyDown(keyboard.KEY_RIGHT))
+	else if (keyboard.isKeyDown(keyboard.KEY_RIGHT) ||
+			 keyboard.isKeyDown(keyboard.KEY_D) )
 	{
 		right = true;
 		this.direction = RIGHT; //change direction 
 	}
 
-	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || keyboard.isKeyDown(keyboard.KEY_UP)) && this.jumping === false)
+	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || 
+		keyboard.isKeyDown(keyboard.KEY_UP) || 
+		keyboard.isKeyDown(keyboard.KEY_W)) && this.jumping === false)
 	{
 		jump = true;			//check for jump
 		//this.jumping = true;
@@ -182,7 +185,7 @@ Player.prototype.Update = function(deltaTime) {
 
 		if((cellDown && !cell ) || (cellDiagRight && !cellRight && nx) || (!cellLeft && cellDiagLeft))
 			{
-				this.y = tileToPixel(ty);
+				this.y = tileToPixel(this.ty);
 				this.velocityY = 0;
 
 				this.falling = false;
@@ -196,7 +199,7 @@ Player.prototype.Update = function(deltaTime) {
 	else if (this.velocityY < 0){
 		if ((cell && !cellDown) || (cellRight && !cellDiagLeft && nx) || (cellLeft && !cellDiagLeft))
 		{
-			this.y = tileToPixel(ty + 1);
+			this.y = tileToPixel(this.ty + 1);
 			this.velocityY = 0;
 
 			cell = cellDown;
@@ -211,7 +214,7 @@ Player.prototype.Update = function(deltaTime) {
 	{
 		if ((cellRight && !cell) || (cellDiagRight && !cellDown && ny))
 		{
-			this.x = tileToPixel(tx);
+			this.x = tileToPixel(this.tx);
 			this.velocityX = 0;
 		}
 	}
@@ -221,7 +224,7 @@ Player.prototype.Update = function(deltaTime) {
 	else if (this.velocityX < 0){
 		if ((cell && !cellRight) || (cellDown && !cellDiagRight && ny))
 		{
-			this.x = tileToPixel(tx + 1);
+			this.x = tileToPixel(this.tx + 1);
 			this.velocityX = 0;
 		}
 	}
@@ -233,9 +236,30 @@ Player.prototype.Update = function(deltaTime) {
 
 Player.prototype.inventoryCheck = function ()
 {
-	if(keyboard.isKeyDown(keyboard.KEY_E) && cellLetter)
-	{
+	var cellLetter    = cellAtTileCoord(LAYER_LETTERS,   this.tx, 	  this.ty);		//this checks whether player is on a letter cell
+	var cellLetterUp  = cellAtTileCoord(LAYER_LETTERS, 	 this.tx,     this.ty - 1);
+	var cellLetterRight = cellAtTileCoord(LAYER_LETTERS, this.tx + 1, 	  this.ty );
+	var cellLetterDiagRight = cellAtTileCoord(LAYER_LETTERS, this.tx + 1, this.ty - 1);
 
+	if(keyboard.isKeyDown(keyboard.KEY_E) && cellLetter )
+	{
+		for (var letterIdx = 0; letterIdx < letterCoords.length ; letterIdx ++)
+		{					//x tile component				//y tile component
+			if ((this.tx === letterCoords[letterIdx][1] 	&& this.ty === letterCoords[letterIdx][2]     ) ||
+				(this.tx === letterCoords[letterIdx][1] + 1 && this.ty === letterCoords[letterIdx][2]     ) ||
+				(this.tx === letterCoords[letterIdx][1]     && this.ty === letterCoords[letterIdx][2] + 1 ) ||
+				(this.tx === letterCoords[letterIdx][1] + 1 && this.ty === letterCoords[letterIdx][2] + 1 )  )
+			{
+				if (!this.inventory)
+				{
+				this.inventory = letterCoords[letterIdx][0];
+				drawInstruction[letterIdx] = false;
+
+				console.log(this.inventory);
+
+				}
+			}
+		}
 	}
 }
 
