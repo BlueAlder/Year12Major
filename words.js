@@ -1,6 +1,8 @@
 var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];	//so we can map letter to corresponding number
 var letterObj = [];
 
+var Arr_word_list = [];	//the array that will hold all the words from the .txt file
+
 
 function populateWordList(file)		//this function loads a text file from a server and converts it too an array
 								//the text in this file are the list of words possible

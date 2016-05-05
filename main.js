@@ -8,7 +8,6 @@ var keyboard = new Keyboard();	//initialise keyboard and player
 var player1 = new Player();
 
 var wordList = "http://bluealder.github.io/test.txt";		//define location of list of words 
-var Arr_word_list = []
 populateWordList(wordList);									//convert this txt file to array
 
 var wordToSpell;
@@ -138,7 +137,7 @@ function drawDebug(_cam_x, _cam_y)
 	context.fillStyle = "red";
 	context.fillRect(player1.x - _cam_x, player1.y - _cam_y , 5, 5);
 
-	var draw_cells = true;
+	var draw_cells = false;
 
 	if (draw_cells){
 
@@ -252,7 +251,10 @@ function runGame(deltaTime)
 
 function runWin(deltaTime)
 {
-
+	context.fillStyle = "black";
+	context.font = "50px Arial";
+	var textMeasure = context.measureText("Congrats You Win!");
+	context.fillText("Congrats You Win!", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
 }
 
 function runEndGame(deltaTime)
