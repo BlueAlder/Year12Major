@@ -126,13 +126,20 @@ function run() {
 }
 
 function drawDebug(_cam_x, _cam_y)
-{
-	context.save();
-	context.strokeRect(player1.x - player1.width/2 - _cam_x, player1.y - player1.height/2 - _cam_y, player1.width, player1.height);
-
-	context.restore();
+{	
 
 	context.save();
+	var drawOutlinePlayer = false;
+
+	if (drawOutlinePlayer)
+	{
+		context.strokeRect(player1.x - player1.width/2 - _cam_x, player1.y - player1.height/2 - _cam_y, player1.width, player1.height);
+
+	}
+
+	
+
+
 	
 	context.fillStyle = "red";
 	context.fillRect(player1.x - _cam_x, player1.y - _cam_y , 5, 5);
@@ -168,6 +175,8 @@ function drawDebug(_cam_x, _cam_y)
 	}
 
 
+
+	context.restore();
 
 
 }
@@ -243,6 +252,7 @@ function runGame(deltaTime)
 	player1.Draw(deltaTime, Cam_X, Cam_Y);
 	drawDebug(Cam_X, Cam_Y);
 	debug_draw_map(cells, Cam_X, Cam_Y);
+	drawUI();
 
 
 
@@ -259,7 +269,10 @@ function runWin(deltaTime)
 
 function runEndGame(deltaTime)
 {
-	
+	context.fillStyle = "black";
+	context.font = "50px Arial";
+	var textMeasure = context.measureText("sry ur retard, cant spel");
+	context.fillText("sry ur retard, cant spel", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
 }
 
 function updateCamera()

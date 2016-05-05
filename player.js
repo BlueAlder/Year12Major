@@ -49,6 +49,8 @@ var Player = function()   //this is the player intialiser to create the player
 	this.pickUpTimer = TIME_PICKUP;		//time in milliseconds of delay between picking up letters
 	this.pickUpAllowed = true;
 
+	this.numLetterPlaced = 0;
+
 }
 
 Player.prototype.respawn = function() {
@@ -60,6 +62,8 @@ Player.prototype.respawn = function() {
 
 	this.falling = false;
 	this.jumping = false;
+
+
 
 }
 
@@ -286,9 +290,18 @@ Player.prototype.placementCheck = function ()
 					this.pickUpTimer = TIME_PICKUP;
 					this.pickUpAllowed = false;
 
-					if ( checkWin() )
+					this.numLetterPlaced++;		//placed another letter down so increase coutner
+
+					if ( this.numLetterPlaced === mapWordLength )
 					{
-						curGameState = GAMESTATE_WIN;
+						if (checkWin())
+						{
+							curGameState = GAMESTATE_WIN;
+						}
+						else
+						{
+							curGameState = GAMESTATE_ENDGAME;
+						}
 					}
 
 				}
@@ -302,6 +315,8 @@ Player.prototype.placementCheck = function ()
 
 					this.pickUpTimer = TIME_PICKUP;
 					this.pick = false;
+
+					this.numLetterPlaced--;
 
 
 				}
