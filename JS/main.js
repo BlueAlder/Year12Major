@@ -280,6 +280,12 @@ function runEndGame(deltaTime)
 	context.font = "50px Arial";
 	var textMeasure = context.measureText("sry ur retard, cant spel");
 	context.fillText("sry ur retard, cant spel", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
+
+	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
+	{
+		restartGame();
+
+	}
 }
 
 function updateCamera()
@@ -353,7 +359,12 @@ function lerp(left_value, right_value, ratio)
 
 
 function restartGame()
-{
+{	
+	curGameState = GAMESTATE_GAME;
+	currentLevel = 1;
+	changeMap();
+	player1.lives = LIVES;
+	player1.respawn;
 
 }
 
