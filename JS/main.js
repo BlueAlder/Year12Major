@@ -14,7 +14,7 @@ var wordList = "http://bluealder.github.io/wordLists/";		//define location of li
 var wordToSpell;
 var scrambledWord;
 
-var documentReady = true;
+var documentReady = false;
 
 	
 
