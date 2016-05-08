@@ -14,6 +14,8 @@ var wordList = "http://bluealder.github.io/wordLists/";		//define location of li
 var wordToSpell;
 var scrambledWord;
 
+var documentReady = true;
+
 	
 
 
@@ -74,63 +76,78 @@ function loadMap()
 
 function run() {		//the main function that is called each time the screen is to be updated from the animation frame
 
-	var deltaTime = getDeltaTime();
-
-	context.fillStyle = "red";
-	context.fillRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-
-	context.save();
-	context.globalAlpha = "0.5"
-	context.drawImage(background, 0, 0);
-	context.restore();
-
-
-
-
-	switch(curGameState)		//choose which game state to run
+	if (documentReady)
 	{
-		case GAMESTATE_SPLASH:
-			runSplash(deltaTime);
-			break;
-		case GAMESTATE_GAME:
-			runGame(deltaTime);
-			
-			break;
-		case GAMESTATE_WIN:
-			runWin(deltaTime);
-			break;
-		case GAMESTATE_ENDGAME:
-			runEndGame(deltaTime);
+		var deltaTime = getDeltaTime();
 
+		context.fillStyle = "red";
+		context.fillRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+
+		context.save();
+		context.globalAlpha = "0.5"
+		context.drawImage(background, 0, 0);
+		context.restore();
+
+
+
+
+		switch(curGameState)		//choose which game state to run
+		{
+			case GAMESTATE_SPLASH:
+				runSplash(deltaTime);
+				break;
+			case GAMESTATE_GAME:
+				runGame(deltaTime);
+				
+				break;
+			case GAMESTATE_WIN:
+				runWin(deltaTime);
+				break;
+			case GAMESTATE_ENDGAME:
+				runEndGame(deltaTime);
+
+
+		}
+
+		
+
+		
+
+		fpsTime += deltaTime;
+		fpsCount++;
+
+		if (fpsTime >= 1){
+			fpsTime -= 1;
+			fps = fpsCount;
+			fpsCount = 0;
+		}
+
+		var pushDown = 30;
+
+		context.fillStyle = "blue";
+		context.font="14px Arial";
+		context.fillText("FPS: " + fps, 5, 55 + pushDown);
+
+		context.fillText("Current Word: " + wordToSpell, 5, 70 + pushDown, 200);
+
+		context.fillText("Inventory: " + player1.inventory, 5, 85 + pushDown, 100);
+
+		context.fillText("MouseX: " +mouse.getX(), 5, 100 + pushDown);
+		context.fillText("MouseY: " +mouse.getY(), 5, 115 +  pushDown);
 
 	}
 
-	
+	else
+	{
+		context.fillStyle = "black";
+		context.fillRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	
-
-	fpsTime += deltaTime;
-	fpsCount++;
-
-	if (fpsTime >= 1){
-		fpsTime -= 1;
-		fps = fpsCount;
-		fpsCount = 0;
+		context.fillStyle = "white";
+		context.font = "50px Arial";
+		var textMeasure = context.measureText("Loading...");
+		context.fillText("Loading...", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2);
 	}
-
-	var pushDown = 30;
-
-	context.fillStyle = "blue";
-	context.font="14px Arial";
-	context.fillText("FPS: " + fps, 5, 55 + pushDown);
-
-	context.fillText("Current Word: " + wordToSpell, 5, 70 + pushDown, 200);
-
-	context.fillText("Inventory: " + player1.inventory, 5, 85 + pushDown, 100);
-
-	context.fillText("MouseX: " +mouse.getX(), 5, 100 + pushDown);
-	context.fillText("MouseY: " +mouse.getY(), 5, 115 +  pushDown);
 
 
 }
@@ -417,5 +434,9 @@ function restartGame()
 	window.onEachFrame = onEachFrame;
 }
 )();
+
+
+$('img').on("load", function() {documentReady = true;} );
+
 window.onEachFrame(run);
 
