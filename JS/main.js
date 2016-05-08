@@ -1,10 +1,11 @@
-var canvas = document.getElementById("gameCanvas");
+var canvas = document.getElementById("gameCanvas");		//set canvas variable from HTML and get the context
 var context = canvas.getContext("2d");
 
 var startFrameMillis = Date.now();
 var endFrameMillis = Date.now();			//intialise the delta time
 
 var keyboard = new Keyboard();	//initialise keyboard and player
+var mouse = new Mouse();
 var player1 = new Player();
 
 var wordList = "http://bluealder.github.io/wordLists/";		//define location of list of words 
@@ -62,6 +63,7 @@ function loadMap()
 
 	loadCollisionMap(currentMap);		//loads collision map of the current map
 	wordToSpell = selectWord(mapWordLength);		
+	
 
 	scrambledWord = scrambleWord(wordToSpell);
 	definePlacements(mapWordLength);
@@ -70,7 +72,7 @@ function loadMap()
 
 
 
-function run() {
+function run() {		//the main function that is called each time the screen is to be updated from the animation frame
 
 	var deltaTime = getDeltaTime();
 
@@ -121,11 +123,14 @@ function run() {
 
 	context.fillStyle = "blue";
 	context.font="14px Arial";
-	context.fillText("FPS: " + fps, 5, 60 + pushDown);
+	context.fillText("FPS: " + fps, 5, 55 + pushDown);
 
-	context.fillText("Current Word: " + wordToSpell, 5, 80 + pushDown, 200);
+	context.fillText("Current Word: " + wordToSpell, 5, 70 + pushDown, 200);
 
-	context.fillText("Inventory: " + player1.inventory, 5, 100 + pushDown, 100);
+	context.fillText("Inventory: " + player1.inventory, 5, 85 + pushDown, 100);
+
+	context.fillText("MouseX: " +mouse.getX(), 5, 100 + pushDown);
+	context.fillText("MouseY: " +mouse.getY(), 5, 115 +  pushDown);
 
 
 }
@@ -228,17 +233,44 @@ function debug_draw_map(input_cells, _cam_x, _cam_y)
 
 function runSplash(deltaTime)		//the splash sscereen gamestate
 {
-	context.fillStyle = "black";
-	context.font = "50px Arial";
-	var textMeasure = context.measureText("Get The Code");
-	context.fillText("Get The Code", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2 - 100);
+	
 
-	context.fillText("Press [ENTER] to Begin", SCREEN_WIDTH/2 - 250, SCREEN_HEIGHT/2 + 200)
-
-	if (keyboard.isKeyDown(keyboard.KEY_ENTER)) 
+	if(  (mouse.x >= 20) 						&& 
+		(mouse.x <= 20 +  SCREEN_WIDTH/2 - 30)  && 
+		(mouse.y >= SCREEN_HEIGHT/2 + 50) 		&& 
+		(mouse.y <= SCREEN_HEIGHT/2 + 50 + 100) )
 	{
-		curGameState = GAMESTATE_GAME;
+		context.font = "30px Arial";
+		if (mouse.mouseState === MOUSE_DOWN)
+		{
+			curGameState = GAMESTATE_GAME;
+			restartGame();
+		}
 	}
+	else
+	{
+		context.font = "20px Arial";
+	}
+	
+	context.save();
+	context.fillStyle = "black";
+	
+	context.globalAlpha = 1;
+	context.lineWidth = 2;
+
+	context.drawImage(getTheCodeLogo, SCREEN_WIDTH/2 - getTheCodeLogo.width/2, 50, getTheCodeLogo.width, getTheCodeLogo.height);
+
+	context.fillRect(20, SCREEN_HEIGHT/2 + 50, SCREEN_WIDTH/2 - 30, 100 );		//left box
+	context.fillRect(SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 + 50, SCREEN_WIDTH/2 - 30, 100); 	//right box
+
+
+
+	context.fillStyle = "blue";
+	var textMeasure = context.measureText("Play The Game!");
+	context.fillText("Play The Game!", 20 + (SCREEN_WIDTH/2 - 30)/2 - textMeasure.width/2, (SCREEN_HEIGHT/2 + 50) + (100)/2  );		// (SCREEN_HEIGHT/2 + 50) + (100)/2 - textMeasure.height/2 )
+
+	context.restore();
+
 
 }
 
@@ -269,7 +301,7 @@ function runWin(deltaTime)
 
 	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
-		restartGame();
+		curGameState = GAMESTATE_SPLASH;
 
 	}
 }
@@ -283,7 +315,7 @@ function runEndGame(deltaTime)
 
 	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
-		restartGame();
+		curGameState = GAMESTATE_SPLASH;
 
 	}
 }
@@ -327,26 +359,6 @@ function updateCamera()
 
 	Cam_X = lerpedCamX;
 	Cam_Y = lerpedCamY;
-
-
-	//if ( lerpedCamX - new_pos_x < leeWayPixel && lerpedCamX - new_pos_x > -leeWayPixel)
-	//{
-	//	Cam_X = new_pos_x;
-	//}
-	//else
-	//{
-	//	Cam_X = lerpedCamX
-	//}
-//
-//	//if ( lerpedCamY - new_pos_y < leeWayPixel && lerpedCamY - new_pos_y > -leeWayPixel)
-//	//{
-//	//	Cam_Y = new_pos_y;
-//	//}
-//
-//	//else
-//	//{
-//	//	Cam_Y = lerpedCamY;
-	//}
 
 
 	
@@ -407,4 +419,3 @@ function restartGame()
 )();
 window.onEachFrame(run);
 
-loadMap();

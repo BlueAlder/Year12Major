@@ -1,23 +1,31 @@
-var character = document.createElement("img");
-character.src = "Graphics/p1_jump.png";
+var character = document.createElement("img");		//load player sprite
+character.src = "Graphics/playerSprite.png";
+character.width = 70;
+character.height = 80;
 
-var tileset = document.createElement("img");
+var tileset = document.createElement("img");		//load map tileset
 tileset.src = currentMap.tilesets[0].image;
 
-var alphaTileset = document.createElement("img");
+var alphaTileset = document.createElement("img");	//load alphabet tileset
 alphaTileset.src = currentMap.tilesets[1].image
 
-var background = document.createElement("img");
+var background = document.createElement("img");		//laod background image
 background.src = "Graphics/background.png";
 
-var UIInventory = document.createElement("img");
+var UIInventory = document.createElement("img");	//load inventory image
 UIInventory.src = "Graphics/UI/inventory.png";
 
-var UIHearts = document.createElement("img");
+var UIHearts = document.createElement("img");		//load UI hearts
 UIHearts.src = "Graphics/UI/heart.png";
 
-var UIHeartOutline = document.createElement("img");
+var UIHeartOutline = document.createElement("img");	//load UI heart outline
 UIHeartOutline.src = "Graphics/UI/heart_outline.png"
+
+var getTheCodeLogo = document.createElement("img");
+getTheCodeLogo.src = "Graphics/getTheCodeLogo.png"
+getTheCodeLogo.width = 200;
+getTheCodeLogo.height = 200;
+
 
 function drawUI()
 {
@@ -72,7 +80,7 @@ function drawInventory()
 function drawLives() 
 {	
 	context.save();
-	context.globalAlpha = 1 - (1/3)*(player1.lives - 1);
+	context.globalAlpha = 1 ;
 
 	
 

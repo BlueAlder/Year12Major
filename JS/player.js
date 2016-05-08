@@ -36,8 +36,8 @@ var Player = function()   //this is the player intialiser to create the player
 
 	this.lives = LIVES;
 
-	this.width = 67;
-	this.height = 94;
+	this.width = character.width;
+	this.height = character.height;
 
 	this.falling = true;
 	this.jumping = false;
