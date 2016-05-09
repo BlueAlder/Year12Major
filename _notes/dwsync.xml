@@ -3,9 +3,12 @@
 <file name="database.txt" server="W:/" local="131072298158040615" remote="131072298150000000" Dst="1" />
 <file name="LICENSE" server="W:/" local="131067076117403759" remote="131067076110000000" Dst="1" />
 <file name="README.md" server="W:/" local="131067076117934099" remote="131067076110000000" Dst="1" />
-<file name="database.txt" server="samcalamos.netne.net/public_html/" local="131072298158040615" remote="131071804200000000" Dst="1" />
-<file name="LICENSE" server="samcalamos.netne.net/public_html/" local="131067076117403759" remote="131071804800000000" Dst="1" />
-<file name="README.md" server="samcalamos.netne.net/public_html/" local="131067076117934099" remote="131071804800000000" Dst="1" />
+<file name="database.txt" server="samcalamos.netne.net/public_html/" local="131072613310229536" remote="131072240400000000" Dst="1" />
+<file name="LICENSE" server="samcalamos.netne.net/public_html/" local="131015545360688776" remote="131072240400000000" Dst="1" />
+<file name="README.md" server="samcalamos.netne.net/public_html/" local="131015545360718803" remote="131072240400000000" Dst="1" />
 <file name="index.php" server="W:/" local="131072355894914358" remote="131072355890000000" Dst="1" />
 <file name="favicon.ico" server="W:/" local="131014301832277342" remote="131014301830000000" Dst="1" />
+<file name="debug.log" server="samcalamos.netne.net/public_html/" local="131072613310244551" remote="131072240400000000" Dst="1" />
+<file name="favicon.ico" server="samcalamos.netne.net/public_html/" local="131072613310254560" remote="131072240400000000" Dst="1" />
+<file name="index.php" server="samcalamos.netne.net/public_html/" local="131072613310289592" remote="131072240400000000" Dst="1" />
 </dwsync>

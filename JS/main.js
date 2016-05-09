@@ -63,11 +63,11 @@ function getDeltaTime(){
 function loadMap() 
 {	
 	mapWordLength = lengthOfWordInMap();
-	//populateWordList(wordList + mapWordLength + "letters.txt");		CHANGE ME BACK
+	populateWordList(wordList + mapWordLength + "letters.txt");		
 
 	loadCollisionMap(currentMap);		//loads collision map of the current map
-	//wordToSpell = selectWord(mapWordLength);						CHANGE ME BACK
-	wordToSpell = "mid";
+	wordToSpell = selectWord(mapWordLength);						
+	
 
 	scrambledWord = scrambleWord(wordToSpell);
 	definePlacements(mapWordLength);
