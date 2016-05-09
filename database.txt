@@ -1,0 +1,3 @@
+dbname = a4805969_db
+dbUserName = 	a4805969_admin
+dbPass = database1

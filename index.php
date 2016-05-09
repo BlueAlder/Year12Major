@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <head>
 	<title>Sam Calamos</title>
@@ -20,6 +22,7 @@
 			If you can read this text then your browser does not support HTML 5
 		</canvas></center>
 		<script src="JS/jquery-2.2.3.js"></script>
+		<script src="JS/submitScore.js"></script>
 		<script src="JS/letters.js"></script>
 		<script src="JS/words.js"></script>
 		<script src="JS/levelData.js"></script>
@@ -39,7 +42,29 @@
 		<p>Sam Calamos 2016  &#169</p>
 	</div>
 
+
+	<form action="PHP/includes/createRecord.php" name="submitScore" method="post">
+		Name<input type = "text" name = "inputName" value = "" /><br>
+		Score<input type = "text" name = "inputScore" value = "" />
+		<br/>
+
+		<input type="submit" name = "submit" />
+
 </body>
+
+<?php
+		
+		include 'PHP/includes/connection.php';
+
+		$query = "SELECT * FROM Scores";
+		$result = mysql_query($query);
+
+		while($person = mysql_fetch_array($result) )
+		{
+			echo "<h3 style='color:white;' >" . $person['name'] . "</h3>";
+			echo "<h3 style='color:white;' >" . $person['score'] . "</h3>";
+		}
+?>
 
 
 

@@ -16,7 +16,7 @@ var self = this;
 
 //assign variables to allow for states
 
-var LIVES = 3;
+var LIVES = 1;
 
 var LEFT = 0;
 var RIGHT = 1;
@@ -51,6 +51,8 @@ var Player = function()   //this is the player intialiser to create the player
 	this.pickUpAllowed = true;
 
 	this.numLetterPlaced = 0;
+
+	this.score = 230;
 
 }
 

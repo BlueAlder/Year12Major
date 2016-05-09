@@ -14,7 +14,7 @@ var wordList = "http://bluealder.github.io/wordLists/";		//define location of li
 var wordToSpell;
 var scrambledWord;
 
-var documentReady = false;
+var documentReady = true;
 
 	
 
@@ -33,6 +33,8 @@ var GAMESTATE_SPLASH = 0;				//create variables for gamestates so not confused
 var GAMESTATE_GAME = 1;
 var GAMESTATE_ENDGAME = 2;
 var GAMESTATE_WIN = 3;
+var GAMESTATE_LEADERBOARDS = 4;
+var GAMESTATE_SUBMIT = 5;
 var curGameState = GAMESTATE_SPLASH;	//set initial game state
 
 var mapWordLength;
@@ -61,11 +63,11 @@ function getDeltaTime(){
 function loadMap() 
 {	
 	mapWordLength = lengthOfWordInMap();
-	populateWordList(wordList + mapWordLength + "letters.txt");	
+	//populateWordList(wordList + mapWordLength + "letters.txt");		CHANGE ME BACK
 
 	loadCollisionMap(currentMap);		//loads collision map of the current map
-	wordToSpell = selectWord(mapWordLength);		
-	
+	//wordToSpell = selectWord(mapWordLength);						CHANGE ME BACK
+	wordToSpell = "mid";
 
 	scrambledWord = scrambleWord(wordToSpell);
 	definePlacements(mapWordLength);
@@ -99,13 +101,18 @@ function run() {		//the main function that is called each time the screen is to 
 				break;
 			case GAMESTATE_GAME:
 				runGame(deltaTime);
-				
 				break;
 			case GAMESTATE_WIN:
 				runWin(deltaTime);
 				break;
 			case GAMESTATE_ENDGAME:
 				runEndGame(deltaTime);
+				break;
+			case GAMESTATE_LEADERBOARDS:
+				runLeaderboards(deltaTime);
+				break;
+			case GAMESTATE_SUBMIT:
+				runSubmitScore(deltaTime);
 
 
 		}
@@ -126,7 +133,7 @@ function run() {		//the main function that is called each time the screen is to 
 		var pushDown = 30;
 
 		context.fillStyle = "blue";
-		context.font="14px Arial";
+		context.font="14px Arial";	
 		context.fillText("FPS: " + fps, 5, 55 + pushDown);
 
 		context.fillText("Current Word: " + wordToSpell, 5, 70 + pushDown, 200);
@@ -250,7 +257,7 @@ function debug_draw_map(input_cells, _cam_x, _cam_y)
 
 function runSplash(deltaTime)		//the splash sscereen gamestate
 {
-	
+	var buttonWidth = SCREEN_WIDTH/2 - 30
 
 	if(  (mouse.x >= 20) 						&& 
 		(mouse.x <= 20 +  SCREEN_WIDTH/2 - 30)  && 
@@ -264,6 +271,20 @@ function runSplash(deltaTime)		//the splash sscereen gamestate
 			restartGame();
 		}
 	}
+
+	else if ( (mouse.x >= SCREEN_WIDTH/2 + 10)  &&
+			   mouse.x <= SCREEN_WIDTH/2 + 10 + buttonWidth &&
+			   mouse.y >= SCREEN_HEIGHT/2 + 50  &&
+			   mouse.y <= SCREEN_HEIGHT/2 + 50 + 100)
+	{
+		context.font = "30px Arial";
+		if (mouse.mouseState === MOUSE_DOWN)
+		{
+			curGameState = GAMESTATE_LEADERBOARDS;
+
+		}
+	}
+
 	else
 	{
 		context.font = "20px Arial";
@@ -277,14 +298,20 @@ function runSplash(deltaTime)		//the splash sscereen gamestate
 
 	context.drawImage(getTheCodeLogo, SCREEN_WIDTH/2 - getTheCodeLogo.width/2, 50, getTheCodeLogo.width, getTheCodeLogo.height);
 
-	context.fillRect(20, SCREEN_HEIGHT/2 + 50, SCREEN_WIDTH/2 - 30, 100 );		//left box
-	context.fillRect(SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 + 50, SCREEN_WIDTH/2 - 30, 100); 	//right box
 
-
+	//draw button boxes
+	context.fillRect(20, SCREEN_HEIGHT/2 + 50, buttonWidth, 100 );		//left box
+	context.fillRect(SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 + 50, buttonWidth, 100); 	//right box
 
 	context.fillStyle = "blue";
 	var textMeasure = context.measureText("Play The Game!");
-	context.fillText("Play The Game!", 20 + (SCREEN_WIDTH/2 - 30)/2 - textMeasure.width/2, (SCREEN_HEIGHT/2 + 50) + (100)/2  );		// (SCREEN_HEIGHT/2 + 50) + (100)/2 - textMeasure.height/2 )
+	context.fillText("Play The Game!", 20 + (SCREEN_WIDTH/2 - 30)/2 - textMeasure.width/2, (SCREEN_HEIGHT/2 + 50) + (100)/2  );	
+
+	textMeasure = context.measureText("View Leaderboards");
+	var drawX = SCREEN_WIDTH/2 + 10 + (SCREEN_WIDTH/2 - 30)/2 - textMeasure.width/2;
+	var drawY = (SCREEN_HEIGHT/2 + 50) + (100)/2;
+	context.fillText("View Leaderboards", drawX, drawY);
+
 
 	context.restore();
 
@@ -316,11 +343,15 @@ function runWin(deltaTime)
 	var textMeasure = context.measureText("Congrats You Win!");
 	context.fillText("Congrats You Win!", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
 
+	submitScore();
+
 	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
 		curGameState = GAMESTATE_SPLASH;
 
 	}
+
+
 }
 
 function runEndGame(deltaTime)
@@ -330,10 +361,38 @@ function runEndGame(deltaTime)
 	var textMeasure = context.measureText("sry ur retard, cant spel");
 	context.fillText("sry ur retard, cant spel", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
 
+	context.fillText("Press 'f' to submit score", 20, SCREEN_HEIGHT - 20);
+
 	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
 		curGameState = GAMESTATE_SPLASH;
 
+	}
+
+	else if(keyboard.isKeyDown(keyboard.KEY_F))
+	{
+		curGameState = GAMESTATE_SUBMIT;
+	}
+}
+
+function runSubmitScore(deltaTime) {
+	context.save();
+
+	context.font = "30px Arial";
+	context.fillStyle = "black";
+
+	context.fillText("Enter your name", 20, 20); 
+
+	submitScore(deltaTime);
+
+	context.restore();
+}
+
+function runLeaderboards(deltaTime)		//run leaderbaords 
+{
+	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
+	{
+		curGameState = GAMESTATE_SPLASH;
 	}
 }
 
