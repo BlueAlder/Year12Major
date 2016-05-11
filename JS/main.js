@@ -34,6 +34,7 @@ var GAMESTATE_ENDGAME = 2;
 var GAMESTATE_WIN = 3;
 var GAMESTATE_LEADERBOARDS = 4;
 var GAMESTATE_SUBMIT = 5;
+var GAMESTATE_MINIGAME = 6;
 var curGameState = GAMESTATE_SPLASH;	//set initial game state
 
 var LEVEL_TIME = 60;
@@ -67,7 +68,8 @@ function loadMap()
 	populateWordList(wordList + mapWordLength + "letters.txt");		
 
 	loadCollisionMap(currentMap);		//loads collision map of the current map
-	wordToSpell = selectWord(mapWordLength);						
+	wordToSpell = selectWord(mapWordLength);
+	player1.code.push(wordToSpell);						
 	
 
 	scrambledWord = scrambleWord(wordToSpell);
@@ -396,6 +398,11 @@ function runLeaderboards(deltaTime)		//run leaderbaords
 	{
 		curGameState = GAMESTATE_SPLASH;
 	}
+}
+
+function runMiniGame(deltaTime)
+{
+	miniGame();
 }
 
 function updateCamera()

@@ -55,6 +55,8 @@ var Player = function()   //this is the player intialiser to create the player
 	this.score = 0;
 	this.levelTimer = LEVEL_TIME;
 
+	this.code = [];
+
 
 }
 
@@ -324,8 +326,9 @@ Player.prototype.placementCheck = function ()
 
 							else
 							{	
-								currentLevel ++;		//player wins level and goes to next one
+								currentLevel++;
 								changeMap();
+								
 							}
 
 						}
@@ -376,7 +379,6 @@ Player.prototype.inventoryCheck = function ()
 				this.inventoryIdx = letterIdx;
 				letterObj[letterIdx].draw = false;
 
-				console.log(this.inventory);
 
 				}
 			}
