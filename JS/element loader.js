@@ -38,6 +38,7 @@ function drawUI()
 {
 	drawInventory();
 	drawLives();
+	drawScore();
 
 }
 
@@ -101,6 +102,20 @@ function drawLives()
 			context.drawImage(UIHearts, SCREEN_WIDTH - heartOffset, 0);
 		}
 	}
+
+	context.restore();
+}
+
+function drawScore()
+{
+	context.save();
+
+	context.font = "30px Arial";
+	context.fillStyle = "black";
+
+	var textMeasure  = context.measureText(player1.score);
+	context.fillText("Score: "+player1.score, 30, 30);
+	context.fillText("Timer: " + Math.ceil(player1.levelTimer), 30, 60 );
 
 	context.restore();
 }

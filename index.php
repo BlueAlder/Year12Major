@@ -13,7 +13,7 @@
 			<center><img id="logo" src="Graphics/getTheCodeLogo.png" style = "width:100;height:100px;"></center>
 		</div>	
 		<div id="topTitle">
-			<h1>GET THE CODE V3.2.0</h1>
+			<h1>GET THE CODE V3.3.1</h1>
 		</div>
 	</div>
 
@@ -22,6 +22,7 @@
 			If you can read this text then your browser does not support HTML 5
 		</canvas></center>
 		<script src="JS/jquery-2.2.3.js"></script>
+		<script src="JS/timer.js"></script>
 		<script src="JS/submitScore.js"></script>
 		<script src="JS/letters.js"></script>
 		<script src="JS/words.js"></script>
@@ -43,12 +44,12 @@
 	</div>
 
 
-	<form action="PHP/includes/createRecord.php" name="submitScore" method="post">
-		Name<input type = "text" name = "inputName" value = "" /><br>
-		Score<input type = "text" name = "inputScore" value = "" />
+	<form action="PHP/createRecord.php" name="submitScore" id="submitScore" method="post">
+		Name<input type = "text" name = "inputName" id = "inputName" value = "" /><br>
+		Score<input type = "text" name = "inputScore" id = "inputScore" value = "" />
 		<br/>
 
-		<input type="submit" name = "submit" />
+		<!--<input type="submit" name = "submit" />-->
 
 </body>
 

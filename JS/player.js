@@ -16,7 +16,7 @@ var self = this;
 
 //assign variables to allow for states
 
-var LIVES = 1;
+var LIVES = 2;
 
 var LEFT = 0;
 var RIGHT = 1;
@@ -52,7 +52,9 @@ var Player = function()   //this is the player intialiser to create the player
 
 	this.numLetterPlaced = 0;
 
-	this.score = 230;
+	this.score = 0;
+	this.levelTimer = LEVEL_TIME;
+
 
 }
 
@@ -313,6 +315,8 @@ Player.prototype.placementCheck = function ()
 					{
 						if (checkWin())
 						{	
+							player1.score += Math.round(player1.levelTimer);	//add timer to score
+
 							if (currentLevel === numLevels)
 							{
 								curGameState = GAMESTATE_WIN;		//player has won all lavels
@@ -323,6 +327,7 @@ Player.prototype.placementCheck = function ()
 								currentLevel ++;		//player wins level and goes to next one
 								changeMap();
 							}
+
 						}
 						else
 						{

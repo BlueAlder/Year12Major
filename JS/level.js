@@ -255,6 +255,7 @@ function changeMap()
 	placementObj = [];
 	updateLevel();
 	loadMap();
+	player1.levelTimer = LEVEL_TIME;
 	player1.respawn();
 
 	player1.numLetterPlaced = 0;

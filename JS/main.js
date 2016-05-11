@@ -15,7 +15,6 @@ var wordToSpell;
 var scrambledWord;
 
 var documentReady = true;
-
 	
 
 
@@ -36,6 +35,8 @@ var GAMESTATE_WIN = 3;
 var GAMESTATE_LEADERBOARDS = 4;
 var GAMESTATE_SUBMIT = 5;
 var curGameState = GAMESTATE_SPLASH;	//set initial game state
+
+var LEVEL_TIME = 60;
 
 var mapWordLength;
 
@@ -320,6 +321,7 @@ function runSplash(deltaTime)		//the splash sscereen gamestate
 
 function runGame(deltaTime)
 {
+	updateTimer(deltaTime);
 	updateLevel();
 	player1.Update(deltaTime);
 	updateCamera();
@@ -359,7 +361,7 @@ function runEndGame(deltaTime)
 	context.fillStyle = "black";
 	context.font = "50px Arial";
 	var textMeasure = context.measureText("sry ur retard, cant spel");
-	context.fillText("sry ur retard, cant spel", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
+	context.fillText("sry ur silly, cant spel", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
 
 	context.fillText("Press 'f' to submit score", 20, SCREEN_HEIGHT - 20);
 
