@@ -3,39 +3,22 @@
 
 <?php
 	include "includes/connection.php";
+	include "includes/ChromePhp.php";
 
 	$name  = $_POST['inputName'];
-	$score = $_POST['inputScore'];
+	$score = intval($_POST['inputScore']);
 
-	$query = "SELECT * FROM Scores";
-	$result = mysql_query($query);
-	$increment = 0;
+	$query = "INSERT INTO Scores (id, name, score) VALUES(NULL, '$name', $score)";
+	mysql_query($query) or die(mysql_error());
 
-	$person = mysql_fetch_array($result);
-	$numElements = count($person);
-
-	if ($numElements < 10)
-	{
-		mysql_query("ALTER TABLE Scores AUTO_INCREMENT = $increment");
-
-	
-
-		mysql_query ("INSERT INTO Scores (id, name, score) VALUES(NULL, '$name', '$score')") or die(mysql_error());
-		header( 'Location: ../index.php?worked');
-	}
-	else
-	{
-		header('Location: ../index.php?nowork');
-	}
-
-	
-		
-	echo "Record Saved";
-	
-	
+	header('Location: ../index.php');
 
 
 
 ?>
 <h1> Please Wait while your score is being submitted </h1>
+<form action="../index.php">
+	<input type="Submit" value="Go Back">
+</form>
+
 

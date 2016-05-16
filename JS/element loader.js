@@ -92,7 +92,7 @@ function drawLives()
 
 	
 
-	for (var i = 0; i < LIVES; i++)
+	for (var i = 0; i < MAX_LIVES; i++)
 	{
 		var heartOffset = (5 + UIHearts.width) * i  + UIHearts.width + 5;
 		context.drawImage(UIHeartOutline, SCREEN_WIDTH - heartOffset, 0);

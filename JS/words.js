@@ -33,7 +33,7 @@ function selectWord(wordLength){			//this function randomly selects a word from 
 		var randNum = Math.random();
 
 		var randIndex = Math.round(randNum * (Arr_word_list.length - 1));
-	} while (Arr_word_list[randIndex].length != wordLength);
+	} while ( $.inArray(Arr_word_list[randIndex], player1.code) != - 1);
 
 	return Arr_word_list[randIndex];
 }
@@ -42,7 +42,6 @@ function scrambleWord (word)		//this scrambles the word chosen to be placed on t
 									// it then returns the array of words jumbled
 {
 	wordLetters = word.split("");
-	console.log(wordLetters);
 
 	counter = wordLetters.length;
 
@@ -64,13 +63,5 @@ function scrambleWord (word)		//this scrambles the word chosen to be placed on t
 		letterObj.push(letter);			//creates new letter object
 
 	}
-		
-
-
-
-	
-
-	console.log(letterObj);
-	console.log(wordLetters);
 	return wordLetters;	
 }

@@ -69,7 +69,8 @@ function loadMap()
 
 	loadCollisionMap(currentMap);		//loads collision map of the current map
 	wordToSpell = selectWord(mapWordLength);
-	player1.code.push(wordToSpell);						
+	player1.code.push(wordToSpell);	
+	console.log(player1.code);					
 	
 
 	scrambledWord = scrambleWord(wordToSpell);
@@ -97,7 +98,7 @@ function run() {		//the main function that is called each time the screen is to 
 
 
 
-		switch(curGameState)		//choose which game state to run
+		switch(curGameState)				//choose which game state to run
 		{
 			case GAMESTATE_SPLASH:
 				runSplash(deltaTime);
@@ -116,6 +117,9 @@ function run() {		//the main function that is called each time the screen is to 
 				break;
 			case GAMESTATE_SUBMIT:
 				runSubmitScore(deltaTime);
+				break;
+			case GAMESTATE_MINIGAME:
+				runMiniGame(deltaTime);
 
 
 		}
@@ -402,7 +406,7 @@ function runLeaderboards(deltaTime)		//run leaderbaords
 
 function runMiniGame(deltaTime)
 {
-	miniGame();
+	miniGame(deltaTime);
 }
 
 function updateCamera()

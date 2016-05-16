@@ -15,8 +15,8 @@ var TIME_PICKUP = 0.2;		//time in seconds between picking up letters;
 var self = this;
 
 //assign variables to allow for states
-
-var LIVES = 2;
+var MAX_LIVES = 5;
+var LIVES = 3;
 
 var LEFT = 0;
 var RIGHT = 1;
@@ -54,6 +54,7 @@ var Player = function()   //this is the player intialiser to create the player
 
 	this.score = 0;
 	this.levelTimer = LEVEL_TIME;
+	this.levelLoop = 0; //how many times the player has beaten the level to proceed to the minigame
 
 	this.code = [];
 
@@ -315,24 +316,24 @@ Player.prototype.placementCheck = function ()
 
 					if ( this.numLetterPlaced === mapWordLength )
 					{
-						if (checkWin())
+						if (checkWin())		//spelt correct word
 						{	
-							player1.score += Math.round(player1.levelTimer);	//add timer to score
+							this.score += Math.round(this.levelTimer);	//add timer to score
+							this.levelLoop ++; 	//INCREAMENET LOOP SINCE A LAP IS COMPLETED
 
-							if (currentLevel === numLevels)
+							if (this.levelLoop >= LEVEL_LOOPS)	//player has completed level and playing minigame
 							{
-								curGameState = GAMESTATE_WIN;		//player has won all lavels
-							}
+								curGameState = GAMESTATE_MINIGAME;
+							} 
 
-							else
-							{	
-								currentLevel++;
+							else	//reload same map level and difficulty
+							{
 								changeMap();
-								
 							}
 
 						}
-						else
+
+						else		//spelt wrong word so end game
 						{
 							curGameState = GAMESTATE_ENDGAME;
 						}
@@ -348,10 +349,23 @@ Player.prototype.placementCheck = function ()
 					placementObj[placementIdx].letterPlaced = "";
 
 					this.pickUpTimer = TIME_PICKUP;
-					this.pick = false;
+					
 
 					this.numLetterPlaced--;
 
+
+				}
+				
+
+				//check to swap the letters from inven to placement
+				else if (placementObj[placementIdx].placed && this.inventory != 0 && this.pickUpAllowed)
+				{
+					var temp = this.inventory;
+					this.inventory = placementObj[placementIdx].letterPlaced;
+					placementObj[placementIdx].letterPlaced = temp;
+
+					this.pickUpTimer = TIME_PICKUP;
+					
 
 				}
 
@@ -373,11 +387,11 @@ Player.prototype.inventoryCheck = function ()
 		{					//x tile component				//y tile component
 			if (checkTileMatch(this.tx, this.ty, letterObj[letterIdx].xTILE, letterObj[letterIdx].yTILE) )		// one TILE
 			{
-				if (!this.inventory)
+				if (!this.inventory && letterObj[letterIdx].draw)
 				{
-				this.inventory = letterObj[letterIdx].letter;
-				this.inventoryIdx = letterIdx;
-				letterObj[letterIdx].draw = false;
+					this.inventory = letterObj[letterIdx].letter;
+					this.inventoryIdx = letterIdx;
+					letterObj[letterIdx].draw = false;
 
 
 				}
@@ -389,7 +403,18 @@ Player.prototype.inventoryCheck = function ()
 Player.prototype.Draw = function(deltaTime, _cam_x, _cam_y)
 {
 	context.save();
-	context.drawImage(this.image, this.x - this.width/2 - _cam_x , this.y - this.height/2 - _cam_y);	//draw the player
+
+	if (this.direction = RIGHT)
+	{
+		context.drawImage(this.image, this.x - this.width/2 - _cam_x , this.y - this.height/2 - _cam_y);	//draw the player
+	}
+	else if (this.direction = LEFT)
+	{	
+		context.translate()
+		context.scale(-1, 1);		//flip image
+		context.drawImage(this.image, this.x - this.width/2 - _cam_x , this.y - this.height/2 - _cam_y);	//draw the player
+
+	}
 	
 	context.restore();
 }
