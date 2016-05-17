@@ -37,7 +37,7 @@ var GAMESTATE_SUBMIT = 5;
 var GAMESTATE_MINIGAME = 6;
 var curGameState = GAMESTATE_SPLASH;	//set initial game state
 
-var LEVEL_TIME = 60;
+var LEVEL_TIME = 30;
 
 var mapWordLength;
 
@@ -137,18 +137,25 @@ function run() {		//the main function that is called each time the screen is to 
 			fpsCount = 0;
 		}
 
-		var pushDown = 30;
+		var drawUIDebug = false;
 
-		context.fillStyle = "blue";
-		context.font="14px Arial";	
-		context.fillText("FPS: " + fps, 5, 55 + pushDown);
+		if (drawUIDebug)
+		{
 
-		context.fillText("Current Word: " + wordToSpell, 5, 70 + pushDown, 200);
 
-		context.fillText("Inventory: " + player1.inventory, 5, 85 + pushDown, 100);
+			var pushDown = 30;
 
-		context.fillText("MouseX: " +mouse.getX(), 5, 100 + pushDown);
-		context.fillText("MouseY: " +mouse.getY(), 5, 115 +  pushDown);
+			context.fillStyle = "blue";
+			context.font="14px Arial";	
+			context.fillText("FPS: " + fps, 5, 55 + pushDown);
+
+			context.fillText("Current Word: " + wordToSpell, 5, 70 + pushDown, 200);
+
+			context.fillText("Inventory: " + player1.inventory, 5, 85 + pushDown, 100);
+
+			context.fillText("MouseX: " +mouse.getX(), 5, 100 + pushDown);
+			context.fillText("MouseY: " +mouse.getY(), 5, 115 +  pushDown);
+		}
 
 	}
 
@@ -366,14 +373,18 @@ function runEndGame(deltaTime)
 {
 	context.fillStyle = "black";
 	context.font = "50px Arial";
-	var textMeasure = context.measureText("sry ur retard, cant spel");
-	context.fillText("sry ur silly, cant spel", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
+	var textMeasure = context.measureText("sry ur silly,");
+	context.fillText("sry ur silly,", SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2);
+
+	textMeasure = context.measureText("cant spel "+ wordToSpell);
+	context.fillText("cant spel "+ wordToSpell, SCREEN_WIDTH/2 - (textMeasure.width/2), SCREEN_HEIGHT/2 + 50);
 
 	context.fillText("Press 'f' to submit score", 20, SCREEN_HEIGHT - 20);
 
 	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
 		curGameState = GAMESTATE_SPLASH;
+		player1.Reset();
 
 	}
 
@@ -389,7 +400,17 @@ function runSubmitScore(deltaTime) {
 	context.font = "30px Arial";
 	context.fillStyle = "black";
 
-	context.fillText("Enter your name", 20, 20); 
+	textMeasure = context.measureText("Press F to Submit Score");
+	context.fillText("Press F to Submit Score", SCREEN_WIDTH/2 - textMeasure.width, SCREEN_HEIGHT); 
+	if (keyboard.isKeyDown[keyboard.KEY_F])
+	{
+		submitted = false;
+	}
+
+	else if (keyboard.isKeyDown[keyboard.KEY_ENTER])
+	{
+		curGameState = GAMESTATE_SPLASH;
+	}
 
 	submitScore(deltaTime);
 
@@ -398,6 +419,8 @@ function runSubmitScore(deltaTime) {
 
 function runLeaderboards(deltaTime)		//run leaderbaords 
 {
+	loadLeaderboards();
+	
 	if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
 		curGameState = GAMESTATE_SPLASH;

@@ -1,4 +1,5 @@
 var submitted = false;
+var accepted = false;
 
 function submitScore(deltaTime)
 {
@@ -10,6 +11,7 @@ function submitScore(deltaTime)
 		if ( (name != "") && (name.length <= 25) )
 		{
 			submitted = true;
+			accepted = true;
 			document.getElementById("inputName").value = name;
 			document.getElementById("inputScore").value = player1.score;
 			document.getElementById("submitScore").submit();
@@ -25,16 +27,19 @@ function submitScore(deltaTime)
 	}
 
 
-
-	context.save();
-	context.fillStyle = "white";
-	context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	var textMeasure = context.measureText("Loading...")
-	context.fillStyle = "black";
-	context.fillText("Loading...", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2);
-
-	context.restore();
+	if (accepted)
+	{
+		context.save();
+		context.fillStyle = "white";
+		context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	
+		var textMeasure = context.measureText("Loading...")
+		context.fillStyle = "black";
+		context.fillText("Loading...", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2);
+	
+		context.restore();
+	}
+	
 	
 
 

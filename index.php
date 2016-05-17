@@ -22,6 +22,7 @@
 			If you can read this text then your browser does not support HTML 5
 		</canvas></center>
 		<script src="JS/jquery-2.2.3.js"></script>
+		<script src="JS/leaderboards.js"></script>
 		<script src="JS/miniGame.js"></script>
 		<script src="JS/timer.js"></script>
 		<script src="JS/submitScore.js"></script>
@@ -63,11 +64,15 @@
 		$result = mysql_query($query);
 
 		$place = 1;
+		echo "<form>";
 		while($person = mysql_fetch_array($result) )
 		{
 			echo "<h3 style='color:green;' >" . $place . "</h3>";
 			echo "<h3 style='color:white;' >" . $person['name'] . "</h3>";
 			echo "<h3 style='color:white;' >" . $person['score'] . "</h3>";
+
+			echo "<input id='name" . $place . "' value = '" . $person['name'] . "' />" ;
+			echo "<input id='score" . $place . "' value = '" . $person['score'] . "' />" ;
 
 			$place ++;
 		}

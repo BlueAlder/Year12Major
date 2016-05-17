@@ -434,6 +434,28 @@ function checkTileMatch (tileToCheckX, tileToCheckY, tileX, tileY)
 	}
 } 
 
+Player.prototype.Reset = function()
+{
+	this.falling = true;
+	this.jumping = false;
+
+	this.direction = LEFT;
+
+	this.inventory = 0;
+	this.inventoryIdx = -1;
+
+	this.pickUpTimer = TIME_PICKUP;		//time in milliseconds of delay between picking up letters
+	this.pickUpAllowed = true;
+
+	this.numLetterPlaced = 0;
+
+	this.score = 0;
+	this.levelTimer = LEVEL_TIME;
+	this.levelLoop = 0; //how many times the player has beaten the level to proceed to the minigame
+
+	this.code = [];
+}
+
 function checkWin()
 {	
 	var wordSpelt = "";

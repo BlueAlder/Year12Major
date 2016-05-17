@@ -8,7 +8,7 @@ var LOSE = 2;
 
 var miniGameState = PLAYING;
 
-var instructionTimer = 5;
+var instructionTimer = 4;
 
 var MINIGAME_TIMER = 0.5;
 var wordTimer = MINIGAME_TIMER;
@@ -69,17 +69,17 @@ function miniGame(deltaTime)
 			{
 				miniGameState = LOSE;
 			}
-			wordTimer = MINIGAME_TIMER;
+			wordTimer = MINIGAME_TIMER + 1;	//add one due to delta time being 1 from the prompt
 		}
 	}
 	
-	else if (miniGameState = WIN)
+	else if (miniGameState == WIN)
 	{
 		var textMeasure = context.measureText("You Got The Code!");
 		context.fillText("You Got The Code!", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2);
 	}
 
-	else if (miniGameState = LOSE)
+	else if (miniGameState == LOSE)
 	{
 		var textMeasure = context.measureText("You lose the code :(");
 		context.fillText("You lose the code :(", SCREEN_WIDTH/2  - textMeasure.width/2, SCREEN_HEIGHT/2);
@@ -99,7 +99,6 @@ function miniGame(deltaTime)
 		
 	}
 
-	
 	context.restore();
 
 }
