@@ -13,7 +13,7 @@
 			<center><img id="logo" src="Graphics/getTheCodeLogo.png" style = "width:100;height:100px;"></center>
 		</div>	
 		<div id="topTitle">
-			<h1>GET THE CODE V4.3.1</h1>
+			<h1>GET THE CODE V4.7.4</h1>
 		</div>
 	</div>
 
@@ -21,7 +21,9 @@
 		<center><canvas id="gameCanvas" width="640" height="480">
 			If you can read this text then your browser does not support HTML 5
 		</canvas></center>
-		<script src="JS/jquery-2.2.3.js"></script>
+		<script src="JS/libraries/jquery-2.2.3.js"></script>
+		<script src="JS/libraries/howler.js"></script>
+		<script src="JS/musicSound.js"></script>
 		<script src="JS/leaderboards.js"></script>
 		<script src="JS/miniGame.js"></script>
 		<script src="JS/timer.js"></script>
@@ -67,15 +69,17 @@
 		echo "<form>";
 		while($person = mysql_fetch_array($result) )
 		{
-			echo "<h3 style='color:green;' >" . $place . "</h3>";
-			echo "<h3 style='color:white;' >" . $person['name'] . "</h3>";
-			echo "<h3 style='color:white;' >" . $person['score'] . "</h3>";
+			echo "<h3 style='color:green; display:none;' >" . $place . "</h3>";
+			echo "<h3 style='color:white; display:none;' >" . $person['name'] . "</h3>";
+			echo "<h3 style='color:white; display:none;' >" . $person['score'] . "</h3>";
 
-			echo "<input id='name" . $place . "' value = '" . $person['name'] . "' />" ;
-			echo "<input id='score" . $place . "' value = '" . $person['score'] . "' />" ;
+			echo "<input style='display:none;' id='name" . $place . "' value = '" . $person['name'] . "' />" ;
+			echo "<input style='display:none;' id='score" . $place . "' value = '" . $person['score'] . "' />" ;
 
 			$place ++;
 		}
+		echo 'Current PHP version: ' . phpversion();
+
 ?>
 
 

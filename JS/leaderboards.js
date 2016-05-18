@@ -27,22 +27,34 @@ function loadLeaderboards()
 
 	context.save();
 
-	context.font = "20px Arial";
+	context.font = "40px Arial";
 	context.fillStyle = "black";
+	var topShift = 50;
 
-	for(var i = 0; i < names.length; i ++)			//load names
+	for(var i = 0; i < names.length/2; i ++)			//load names from first half of leaderboards
 	{
-		context.fillText(names[i], 0, i * SCREEN_HEIGHT/10);
+		context.fillText((i + 1)+". "+names[i], 0, (i + 1) * SCREEN_HEIGHT/(scores.length/2) - topShift);
 	}
 
-	context.font = "10px Arial";
+	for (var u = names.length/2; u < names.length; u++)		//load names from second half of leaderbaords
+	{
+		context.fillText((u + 1)+". "+names[u], SCREEN_WIDTH/2, (u - scores.length/2 + 1) * SCREEN_HEIGHT/(scores.length/2) - topShift);
+	}
+
+	context.font = "30px Arial";
 	context.fillStyle = "blue";
-	var spacing = 10;	//spacing between name and score in the fields
+	var spacing = 40;	//spacing between name and score in the fields
 
-	for (var i = 0; i < scores.length; i++)
+	for (var i = 0; i < scores.length/2; i++)
 	{
-		context.fillText(scores[i], 0, i * SCREEN_HEIGHT/10 + spacing);
+		context.fillText(scores[i], 0, (i + 1) * SCREEN_HEIGHT/(scores.length/2) + spacing - topShift);
 	}
+
+	for (var u = scores.length/2; u < scores.length; u ++)
+	{
+		context.fillText(scores[u], SCREEN_WIDTH/2, (u - scores.length/2 + 1) * SCREEN_HEIGHT/(scores.length/2) + spacing - topShift);
+	}
+
 
 
 	context.restore();

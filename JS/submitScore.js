@@ -6,9 +6,9 @@ function submitScore(deltaTime)
 
 	if (!submitted)
 	{
-		var name = prompt("What is your name?", "John Doe");
+		var name = prompt("What is your name? (max 11 Characters", "John Doe");
 
-		if ( (name != "") && (name.length <= 25) )
+		if ( (name != "") && (name.length <= 11) )
 		{
 			submitted = true;
 			accepted = true;

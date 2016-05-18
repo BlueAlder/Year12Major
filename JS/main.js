@@ -280,7 +280,8 @@ function runSplash(deltaTime)		//the splash sscereen gamestate
 	{
 		context.font = "30px Arial";
 		if (mouse.mouseState === MOUSE_DOWN)
-		{
+		{		
+			backgroundMusic.play = true; 		//FIXXXXXXX
 			curGameState = GAMESTATE_GAME;
 			restartGame();
 		}
