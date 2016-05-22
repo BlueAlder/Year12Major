@@ -18,7 +18,7 @@ var self = this;
 var MAX_LIVES = 5;
 var LIVES = 3;
 
-var LEFT = 0;
+var LEFT = 0;		//no magic numbers
 var RIGHT = 1;
 
 
@@ -26,8 +26,8 @@ var Player = function()   //this is the player intialiser to create the player
 {	
 	this.image = character; //from element loader
 
-	this.x = 320;
-	this.y = 240;
+	this.x = currentMap.spawnX;
+	this.y = currentMap.spawnY;
 
 	this.velocityX = 0;
 	this.velocityY = 0;
@@ -45,7 +45,7 @@ var Player = function()   //this is the player intialiser to create the player
 	this.direction = LEFT;
 
 	this.inventory = 0;
-	this.inventoryIdx = -1;
+	this.inventoryIdx = -1;		//set the inventory to the neutral -1
 
 	this.pickUpTimer = TIME_PICKUP;		//time in milliseconds of delay between picking up letters
 	this.pickUpAllowed = true;
@@ -61,9 +61,10 @@ var Player = function()   //this is the player intialiser to create the player
 
 }
 
-Player.prototype.respawn = function() {
-	this.x = 320;
-	this.y = 240;
+Player.prototype.respawn = function()		//resets the player to original position
+{
+	this.x = currentMap.spawnX;
+	this.y = currentMap.spawnY;
 
 	this.velocityX = 0;
 	this.velocityY = 0;
@@ -105,7 +106,8 @@ Player.prototype.Update = function(deltaTime) {
 	   keyboard.isKeyDown(keyboard.KEY_A))
 	{
 		left = true;
-		this.direction = LEFT;	//change direction 
+		this.direction = LEFT;	//change direction
+		character.src = "Graphics/playerSpriteLeft.png"; 
 
 	}
 
@@ -113,7 +115,8 @@ Player.prototype.Update = function(deltaTime) {
 			 keyboard.isKeyDown(keyboard.KEY_D) )
 	{
 		right = true;
-		this.direction = RIGHT; //change direction 
+		this.direction = RIGHT; //change direction
+		character.src = "Graphics/playerSpriteRight.png"; 
 	}
 
 	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || 
@@ -335,6 +338,7 @@ Player.prototype.placementCheck = function ()
 
 						else		//spelt wrong word so end game
 						{
+							backgroundMusic.stop();
 							curGameState = GAMESTATE_ENDGAME;
 						}
 					}
@@ -403,19 +407,7 @@ Player.prototype.inventoryCheck = function ()
 Player.prototype.Draw = function(deltaTime, _cam_x, _cam_y)
 {
 	context.save();
-
-	if (this.direction = RIGHT)
-	{
-		context.drawImage(this.image, this.x - this.width/2 - _cam_x , this.y - this.height/2 - _cam_y);	//draw the player
-	}
-	else if (this.direction = LEFT)
-	{	
-		context.translate()
-		context.scale(-1, 1);		//flip image
-		context.drawImage(this.image, this.x - this.width/2 - _cam_x , this.y - this.height/2 - _cam_y);	//draw the player
-
-	}
-	
+	context.drawImage(this.image, this.x - this.width/2 - _cam_x , this.y - this.height/2 - _cam_y);	//draw the player
 	context.restore();
 }
 
@@ -434,7 +426,7 @@ function checkTileMatch (tileToCheckX, tileToCheckY, tileX, tileY)
 	}
 } 
 
-Player.prototype.Reset = function()
+Player.prototype.Reset = function()		//rest 
 {
 	this.falling = true;
 	this.jumping = false;
@@ -456,16 +448,16 @@ Player.prototype.Reset = function()
 	this.code = [];
 }
 
-function checkWin()
+function checkWin()		//check if the player has won the level
 {	
 	var wordSpelt = "";
 
 	for (var i = 0; i < wordToSpell.length; i++)
 	{
-			wordSpelt += placementObj[i].letterPlaced
+			wordSpelt += placementObj[i].letterPlaced 		//get the word that the player spelt
 	}
 
-	if (wordSpelt === wordToSpell)
+	if (wordSpelt === wordToSpell)	//if it matches return true
 	{
 		return true;
 	}
@@ -475,5 +467,5 @@ function checkWin()
 		return true;
 	}
 
-	return false;
+	return false;		//otherwise return false
 }

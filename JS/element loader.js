@@ -1,6 +1,6 @@
 
 var character = document.createElement("img");		//load player sprite
-character.src = "Graphics/playerSprite.png";
+character.src = "Graphics/playerSpriteLeft.png";
 character.width = 70;
 character.height = 80;
 
@@ -27,8 +27,6 @@ getTheCodeLogo.src = "Graphics/getTheCodeLogo.png"
 getTheCodeLogo.width = 200;
 getTheCodeLogo.height = 200;
 
-var test = document.createElement("img");
-test.src = "http://www.3dhdwallpapers.com/wallpapers/8k/carton-box-uhd-8k-wallpaper.jpg";
 
 
 

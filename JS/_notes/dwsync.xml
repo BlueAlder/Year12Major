@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
 <file name="animation.js" server="W:/" local="131072215996263417" remote="131072215990000000" Dst="1" />
-<file name="element loader.js" server="W:/" local="131075865706664704" remote="131075865700000000" Dst="1" />
+<file name="element loader.js" server="W:/" local="131081689981711324" remote="131081689980000000" Dst="1" />
 <file name="keyboard.js" server="W:/" local="131072474937710797" remote="131072474930000000" Dst="1" />
 <file name="letters.js" server="W:/" local="131072215997084664" remote="131072215990000000" Dst="1" />
-<file name="level.js" server="W:/" local="131079174699893124" remote="131079174690000000" Dst="1" />
-<file name="levelData.js" server="W:/" local="131075836865406910" remote="131075836860000000" Dst="1" />
-<file name="main.js" server="W:/" local="131080026444054638" remote="131080026440000000" Dst="1" />
+<file name="level.js" server="W:/" local="131081782490515131" remote="131081782490000000" Dst="1" />
+<file name="levelData.js" server="W:/" local="131081769646780053" remote="131081769640000000" Dst="1" />
+<file name="main.js" server="W:/" local="131081770638444007" remote="131081770630000000" Dst="1" />
 <file name="mouse.js" server="W:/" local="131072215997634425" remote="131072215990000000" Dst="1" />
-<file name="player.js" server="W:/" local="131079192732726701" remote="131079192730000000" Dst="1" />
+<file name="player.js" server="W:/" local="131081773573434323" remote="131081773570000000" Dst="1" />
 <file name="words.js" server="W:/" local="131074835026368795" remote="131074835020000000" Dst="1" />
 <file name="animation.js" server="samcalamos.netne.net/public_html/" local="131072215996263417" remote="131079719400000000" Dst="1" />
 <file name="element loader.js" server="samcalamos.netne.net/public_html/" local="131075865706664704" remote="131079719400000000" Dst="1" />
@@ -20,7 +20,7 @@
 <file name="mouse.js" server="samcalamos.netne.net/public_html/" local="131072215997634425" remote="131079719400000000" Dst="1" />
 <file name="player.js" server="samcalamos.netne.net/public_html/" local="131079192732726701" remote="131079719400000000" Dst="1" />
 <file name="words.js" server="samcalamos.netne.net/public_html/" local="131074835026368795" remote="131079718200000000" Dst="1" />
-<file name="submitScore.js" server="W:/" local="131080014727819999" remote="131080014720000000" Dst="1" />
+<file name="submitScore.js" server="W:/" local="131080879056430010" remote="131080879050000000" Dst="1" />
 <file name="submitScore.js" server="samcalamos.netne.net/public_html/" local="131080014727819999" remote="131079718200000000" Dst="1" />
 <file name="timer.js" server="W:/" local="131073964040635173" remote="131073964040000000" Dst="1" />
 <file name="miniGame.js" server="samcalamos.netne.net/public_html/" local="131079158683644570" remote="131079718200000000" Dst="1" />
@@ -30,4 +30,5 @@
 <file name="musicSound.js" server="W:/" local="131080025432896855" remote="131080025430000000" Dst="1" />
 <file name="musicSound.js" server="samcalamos.netne.net/public_html/" local="131080025432896855" remote="131079718200000000" Dst="1" />
 <file name="leaderboards.js" server="samcalamos.netne.net/public_html/" local="131080010558103899" remote="131079718200000000" Dst="1" />
+<file name="jquery-2.2.3.js" server="W:/" local="131072215990000000" remote="131072215990000000" Dst="1" />
 </dwsync>

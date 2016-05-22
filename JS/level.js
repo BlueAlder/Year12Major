@@ -1,4 +1,5 @@
-var currentLevel = 1;		
+var STARTING_LEVEL = 1;
+var currentLevel = STARTING_LEVEL;		
 var numLevels = maps.length;
 var currentMap = maps[currentLevel - 1]; //Set the current map to the test level in the load in this case this is the test level
 
