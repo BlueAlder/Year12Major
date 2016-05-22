@@ -19,7 +19,7 @@ function miniGame(deltaTime)
 	context.save();
 	
 	context.font = "30px Andale Mono";
-	context.fillStyle = "green"; 
+	context.fillStyle = "blue"; 
 	var userInput = "";
 
 	if (miniGameState == PLAYING)
@@ -61,6 +61,7 @@ function miniGame(deltaTime)
 				{
 					miniGameState = WIN;
 					player1.lives ++;
+					gotCodeSFX.play();
 				}
 
 				
@@ -77,6 +78,7 @@ function miniGame(deltaTime)
 	{
 		var textMeasure = context.measureText("You Got The Code!");
 		context.fillText("You Got The Code!", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2);
+
 	}
 
 	else if (miniGameState == LOSE)

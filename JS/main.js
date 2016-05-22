@@ -45,6 +45,13 @@ var fps = 0;		//start the FPS
 var fpsCount = 0;
 var fpsTime = 0;
 
+var MUTE_TIMER = 0.1;
+var timerMute = 0;
+var mute = false;
+
+var storyPlaying = false;
+
+
 
 function getDeltaTime(){
 	endFrameMillis = startFrameMillis;	
@@ -137,7 +144,58 @@ function run() {		//the main function that is called each time the screen is to 
 
 		}
 
-		
+
+		if (mute)
+		{
+			context.drawImage(muteIcon, 0, 0, muteIcon.width, muteIcon.height);
+		}
+
+		else if (!mute)
+		{
+			context.drawImage(volumeIcon, 0, 0, volumeIcon.width, volumeIcon.height);
+		}
+
+		if (timerMute <= 0)
+		{
+			
+			if (mouse.x >= 0 &&
+				mouse.x <= volumeIcon.width &&
+				mouse.y >= 0  &&
+				mouse.y <= volumeIcon.height  &&
+				mouse.mouseState === MOUSE_DOWN 
+				)
+			{	
+				if (mute)
+				{
+					Howler.unmute();
+					mute = false;
+				}
+				else if (!mute)
+				{
+					Howler.mute();
+					mute = true;
+				}
+				timerMute = MUTE_TIMER;
+				
+			}
+		}
+		else
+		{
+			timerMute -= deltaTime;
+		}
+
+
+
+		if (keyboard.isKeyDown(keyboard.KEY_B) &&
+			keyboard.isKeyDown(keyboard.KEY_E) &&
+			keyboard.isKeyDown(keyboard.KEY_N) &&
+			keyboard.isKeyDown(keyboard.KEY_S) &&
+			keyboard.isKeyDown(keyboard.KEY_O) &&
+			!storyPlaying)
+		{
+			story.play();
+			storyPlaying = true;
+		}
 
 		
 
@@ -171,6 +229,7 @@ function run() {		//the main function that is called each time the screen is to 
 
 			context.fillText("PlayerX: "+Math.round(player1.x), 5, 130 + pushDown);
 			context.fillText("PlayerY: "+Math.round(player1.y), 5, 145 + pushDown);
+			context.fillText(mute, 5, 160 + pushDown);
 		}
 
 	}
@@ -298,6 +357,7 @@ function runSplash(deltaTime)		//the splash sscereen gamestate
 		if (mouse.mouseState === MOUSE_DOWN)		//start the game
 		{		
 			backgroundMusic.play(); 		//FIX
+			backgroundMusic.loop = true;
 			curGameState = GAMESTATE_GAME;	//change game state to playing game
 			restartGame();
 		}

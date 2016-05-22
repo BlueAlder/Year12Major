@@ -3,7 +3,7 @@ var currentLevel = STARTING_LEVEL;
 var numLevels = maps.length;
 var currentMap = maps[currentLevel - 1]; //Set the current map to the test level in the load in this case this is the test level
 
-var LEVEL_LOOPS = 3;		//how many times you want the player to replay level
+var LEVEL_LOOPS = 2;		//how many times you want the player to replay level
 
 var LAYER_BACKGROUND = 0;
 var LAYER_PLATFORMS = 1;		//so we can easily differentiaite the diffrenet layers

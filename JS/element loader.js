@@ -1,8 +1,28 @@
 
 var character = document.createElement("img");		//load player sprite
-character.src = "Graphics/playerSpriteLeft.png";
 character.width = 70;
 character.height = 80;
+
+var characterLeft = document.createElement("img");
+characterLeft.src = "Graphics/playerSpriteLeft.png";
+
+
+var characterRight = document.createElement("img");
+characterRight.src = "Graphics/playerSpriteRight.png";
+
+
+var volumeIcon = document.createElement("img");
+volumeIcon.src = "Graphics/UI/volume.png";
+volumeIcon.width = 20;
+volumeIcon.height = 20;
+
+var muteIcon = document.createElement("img");
+muteIcon.src = "Graphics/UI/volumeOff.png";
+muteIcon.width = 20;
+muteIcon.height = 20;
+
+
+
 
 var tileset = document.createElement("img");		//load map tileset
 tileset.src = currentMap.tilesets[0].image;
@@ -53,30 +73,30 @@ function drawInventory()
 	{	
 		context.globalAlpha = 1;
 
-		context.drawImage(UIInventory, SCREEN_WIDTH - UIInventory.width, SCREEN_HEIGHT - UIInventory.height);
+		context.drawImage(UIInventory, 0, SCREEN_HEIGHT - UIInventory.height);
 
 		var alphaTileIdx = alphabet.indexOf(player1.inventory);
 		var sx = ALPHATILE_PADDING + (alphaTileIdx % ALPHATILE_COUNT_X) * (TILESET_TILE + ALPHATILE_SPACING);			//set cliping for alphatileset
         var sy =  ALPHATILE_PADDING + (Math.floor(alphaTileIdx/ALPHATILE_COUNT_Y)) * (TILESET_TILE + ALPHATILE_SPACING);
 
      
-        context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, SCREEN_WIDTH -  80, SCREEN_HEIGHT - 80, TILESET_TILE, TILESET_TILE);
+        context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, UIInventory.width - 90, SCREEN_HEIGHT - 80, TILESET_TILE, TILESET_TILE);
 	}
 	else
 	{
-		context.drawImage(UIInventory, SCREEN_WIDTH - UIInventory.width, SCREEN_HEIGHT - UIInventory.height);
+		context.drawImage(UIInventory, 0, SCREEN_HEIGHT - UIInventory.height);
 
 		var alphaTileIdx = 27; 		//blank tile
 		var sx = ALPHATILE_PADDING + (alphaTileIdx % ALPHATILE_COUNT_X) * (TILESET_TILE + ALPHATILE_SPACING);			//set cliping for alphatileset
         var sy =  ALPHATILE_PADDING + (Math.floor(alphaTileIdx/ALPHATILE_COUNT_Y)) * (TILESET_TILE + ALPHATILE_SPACING);
 
-        context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE, SCREEN_WIDTH -  80, SCREEN_HEIGHT - 80, TILESET_TILE, TILESET_TILE);
+        context.drawImage(alphaTileset, sx, sy, TILESET_TILE, TILESET_TILE,  UIInventory.width - 90, SCREEN_HEIGHT - 80, TILESET_TILE, TILESET_TILE);
 
 	}
 
 	context.strokeStyle = "black";
 	context.lineWidth = 2;
-	context.strokeRect(SCREEN_WIDTH -  80, SCREEN_HEIGHT - 80, TILESET_TILE, TILESET_TILE);
+	context.strokeRect(UIInventory.width - 90, SCREEN_HEIGHT - 80, TILESET_TILE, TILESET_TILE);
 
 
 

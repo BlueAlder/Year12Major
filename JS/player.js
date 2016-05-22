@@ -24,7 +24,7 @@ var RIGHT = 1;
 
 var Player = function()   //this is the player intialiser to create the player
 {	
-	this.image = character; //from element loader
+	this.image = characterLeft; //from element loader
 
 	this.x = currentMap.spawnX;
 	this.y = currentMap.spawnY;
@@ -107,7 +107,7 @@ Player.prototype.Update = function(deltaTime) {
 	{
 		left = true;
 		this.direction = LEFT;	//change direction
-		character.src = "Graphics/playerSpriteLeft.png"; 
+		this.image = characterLeft; 
 
 	}
 
@@ -116,7 +116,7 @@ Player.prototype.Update = function(deltaTime) {
 	{
 		right = true;
 		this.direction = RIGHT; //change direction
-		character.src = "Graphics/playerSpriteRight.png"; 
+		this.image = characterRight;
 	}
 
 	if ((keyboard.isKeyDown(keyboard.KEY_SPACE) || 
@@ -321,6 +321,7 @@ Player.prototype.placementCheck = function ()
 					{
 						if (checkWin())		//spelt correct word
 						{	
+							countdownSFX.stop();
 							this.score += Math.round(this.levelTimer);	//add timer to score
 							this.levelLoop ++; 	//INCREAMENET LOOP SINCE A LAP IS COMPLETED
 
@@ -338,8 +339,7 @@ Player.prototype.placementCheck = function ()
 
 						else		//spelt wrong word so end game
 						{
-							backgroundMusic.stop();
-							curGameState = GAMESTATE_ENDGAME;
+							this.lose();
 						}
 					}
 
@@ -378,7 +378,12 @@ Player.prototype.placementCheck = function ()
 	}
 }
 
-
+Player.prototype.lose = function()
+{
+	backgroundMusic.stop();
+	backgroundMusic.loop = false;
+	curGameState = GAMESTATE_ENDGAME;
+}
 
 
 Player.prototype.inventoryCheck = function ()

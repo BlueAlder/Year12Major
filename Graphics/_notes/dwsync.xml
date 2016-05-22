@@ -12,12 +12,12 @@
 <file name="tiles_spritesheet.png" server="W:/" local="131067078158640022" remote="131067078150000000" Dst="1" />
 <file name="12784676_1736652936566353_1089736482_n.jpg" server="samcalamos.netne.net/public_html/" local="131015545360578670" remote="131072239200000000" Dst="1" />
 <file name="alphabet tilset.png" server="samcalamos.netne.net/public_html/" local="131064633773584281" remote="131072239200000000" Dst="1" />
-<file name="background.png" server="samcalamos.netne.net/public_html/" local="131074308691498692" remote="131073839400000000" Dst="1" />
+<file name="background.png" server="samcalamos.netne.net/public_html/" local="131083831675742318" remote="131083395000000000" Dst="1" />
 <file name="alphabet tilset.psd" server="samcalamos.netne.net/public_html/" local="131064633697440492" remote="131072239800000000" Dst="1" />
 <file name="p1_jump.png" server="samcalamos.netne.net/public_html/" local="131015545360648735" remote="131072239800000000" Dst="1" />
 <file name="sprite sheet of character.png" server="samcalamos.netne.net/public_html/" local="131015545360653741" remote="131072239800000000" Dst="1" />
 <file name="tileset.png" server="samcalamos.netne.net/public_html/" local="131008647063404560" remote="131072239800000000" Dst="1" />
-<file name="getTheCodeLogo.png" server="samcalamos.netne.net/public_html/" local="131067076117183608" remote="131079718200000000" Dst="1" />
+<file name="getTheCodeLogo.png" server="samcalamos.netne.net/public_html/" local="131015545360643732" remote="131083352400000000" Dst="1" />
 <file name="tiles_spritesheet - Copy.png" server="samcalamos.netne.net/public_html/" local="131015545360683771" remote="131072239800000000" Dst="1" />
 <file name="tiles_spritesheet.png" server="samcalamos.netne.net/public_html/" local="131064697738425857" remote="131072239800000000" Dst="1" />
 <file name="background.jpg" server="W:/" local="131073972277111289" remote="131073972270000000" Dst="1" />
@@ -25,4 +25,6 @@
 <file name="playerSpriteLeft.png" server="W:/" local="131081688585132277" remote="131081688580000000" Dst="1" />
 <file name="playerSpriteRight.png" server="W:/" local="131072215996023255" remote="131072215990000000" Dst="1" />
 <file name="playerSprite.png" server="W:/" local="131072215990000000" remote="131072215990000000" Dst="1" />
+<file name="playerSpriteLeft.png" server="samcalamos.netne.net/public_html/" local="131083831675747324" remote="131083352400000000" Dst="1" />
+<file name="playerSpriteRight.png" server="samcalamos.netne.net/public_html/" local="131083831675817392" remote="131083352400000000" Dst="1" />
 </dwsync>
