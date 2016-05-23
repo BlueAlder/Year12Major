@@ -475,7 +475,7 @@ function runEndGame(deltaTime)		//when the player loses the game splash
 	else if(keyboard.isKeyDown(keyboard.KEY_F))	//they can submit their score for entry into leaderboards
 	{
 		curGameState = GAMESTATE_SUBMIT;
-		keyboard.keys[KEY_F] = false; //since the pop up jumps so fast we set the f key back up
+		keyboard.keys[keyboard.KEY_F] = false; //since the pop up jumps so fast we set the f key back up
 	}
 }
 
