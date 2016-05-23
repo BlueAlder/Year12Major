@@ -4,13 +4,14 @@ function updateTimer(deltaTime)
 {
 	player1.levelTimer -= deltaTime;
 
-	if (player1.levelTimer <= 14 && !countdownPlaying)
+	if (player1.levelTimer <= 15 && !countdownPlaying)
 	{
 		countdownSFX.play();
 		countdownPlaying = true;
+		backgroundMusic.stop();
 	}
 
-	else if (player1.levelTimer > 14)
+	else if (player1.levelTimer > 15)
 	{
 		countdownPlaying = false;
 	}

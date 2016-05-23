@@ -252,7 +252,7 @@ function drawLevel(_cam_x, _cam_y, scramble)
 
 
 function changeMap()
-{
+{	
 	letterObj = [];
 	placementObj = [];
 	updateLevel();
@@ -261,6 +261,14 @@ function changeMap()
 	player1.respawn();
 
 	player1.numLetterPlaced = 0;
+
+	if(countdownPlaying)
+	{
+		countdownSFX.stop();
+		backgroundMusic.play();
+		countdownPlaying = false;
+	}
+
 }
 
 function tileToPixel(tile)		//this function finds the tile that the player is currently on and

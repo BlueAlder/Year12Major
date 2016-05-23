@@ -79,7 +79,7 @@ Player.prototype.respawn = function()		//resets the player to original position
 	}
 
 	this.inventory = 0;
-
+	
 
 
 }
