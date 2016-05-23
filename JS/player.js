@@ -202,7 +202,7 @@ Player.prototype.Update = function(deltaTime) {
 
 		if (this.lives <= 0)
 		{
-			curGameState = GAMESTATE_ENDGAME;
+			this.lose();
 		}
 
 	}

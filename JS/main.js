@@ -475,6 +475,7 @@ function runEndGame(deltaTime)		//when the player loses the game splash
 	else if(keyboard.isKeyDown(keyboard.KEY_F))	//they can submit their score for entry into leaderboards
 	{
 		curGameState = GAMESTATE_SUBMIT;
+		keyboard.keys[KEY_F] = false; //since the pop up jumps so fast we set the f key back up
 	}
 }
 
@@ -485,14 +486,12 @@ function runSubmitScore(deltaTime) //this function allows the player to submit t
 	context.font = "30px Arial";
 	context.fillStyle = "black";
 
-	textMeasure = context.measureText("Press F to Submit Score");
-	context.fillText("Press F to Submit Score", SCREEN_WIDTH/2 - textMeasure.width, SCREEN_HEIGHT); 
-	if (keyboard.isKeyDown(keyboard.KEY_F) && !accepted)	//make sure they havent already submitted a score
-	{
+	if(keyboard.isKeyDown(keyboard.KEY_F))	//they can submit their score for entry into leaderboards
+	{	
 		submitted = false;
 	}
 
-	else if (keyboard.isKeyDown(keyboard.KEY_ENTER)) //bring them back to the splash screen
+	else if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
 		curGameState = GAMESTATE_SPLASH;
 	}

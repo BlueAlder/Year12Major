@@ -8,21 +8,32 @@ function submitScore(deltaTime)
 	{
 		var name = prompt("What is your name? (max 11 Characters", "John Doe");
 
-		if ( (name != "") && (name.length <= 11) )
+		if (name == null)
+
 		{
-			submitted = true;
-			accepted = true;
-			document.getElementById("inputName").value = name;
-			document.getElementById("inputScore").value = player1.score;
-			document.getElementById("submitScore").submit();
-			 
-			alert("Your score of "+ player1.score+" has been submitted");
+			curGameState = GAMESTATE_SPLASH;
+			player1.Reset();
+			backgroundMusic.stop();
 		}
 
-		else 
+		else
 		{
-			submitted = true;
-			alert("Sorry your name doesn't fit the requirements")
+			if ( (name != "") && (name.length <= 11) )
+			{
+				submitted = true;
+				accepted = true;
+				document.getElementById("inputName").value = name;
+				document.getElementById("inputScore").value = player1.score;
+				document.getElementById("submitScore").submit();
+				 
+				alert("Your score of "+ player1.score+" has been submitted");
+			}
+
+			else 
+			{
+				submitted = true;
+				alert("Sorry your name doesn't fit the requirements")
+			}
 		}
 	}
 
