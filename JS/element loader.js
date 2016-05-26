@@ -38,14 +38,18 @@ UIInventory.src = "Graphics/UI/inventory.png";
 
 var UIHearts = document.createElement("img");		//load UI hearts
 UIHearts.src = "Graphics/UI/heart.png";
+UIHearts.width = 35;
+UIHearts.height = 35;
 
 var UIHeartOutline = document.createElement("img");	//load UI heart outline
-UIHeartOutline.src = "Graphics/UI/heart_outline.png"
+UIHeartOutline.src = "Graphics/UI/heart_outline.png";
+UIHeartOutline.width = 35;
+UIHeartOutline.height = 35;
 
 var getTheCodeLogo = document.createElement("img");
 getTheCodeLogo.src = "Graphics/getTheCodeLogo.png"
-getTheCodeLogo.width = 200;
-getTheCodeLogo.height = 200;
+getTheCodeLogo.width = 300;
+getTheCodeLogo.height = 300;
 
 
 
@@ -113,11 +117,11 @@ function drawLives()
 	for (var i = 0; i < MAX_LIVES; i++)
 	{
 		var heartOffset = (5 + UIHearts.width) * i  + UIHearts.width + 5;
-		context.drawImage(UIHeartOutline, SCREEN_WIDTH - heartOffset, 0);
+		context.drawImage(UIHeartOutline, SCREEN_WIDTH - heartOffset, 0, UIHeartOutline.width, UIHeartOutline.height);
 
 		if (i < player1.lives)
 		{
-			context.drawImage(UIHearts, SCREEN_WIDTH - heartOffset, 0);
+			context.drawImage(UIHearts, SCREEN_WIDTH - heartOffset, 0, UIHearts.width, UIHearts.height);
 		}
 	}
 

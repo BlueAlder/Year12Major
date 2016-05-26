@@ -253,6 +253,8 @@ function drawLevel(_cam_x, _cam_y, scramble)
 
 function changeMap()
 {	
+	//backgroundMusic.pos(0);
+	//backgroundMusic.play();
 	letterObj = [];
 	placementObj = [];
 	updateLevel();

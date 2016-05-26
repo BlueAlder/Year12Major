@@ -58,9 +58,11 @@ function miniGame(deltaTime)
 				player1.code.splice(0 , 1);
 
 				if (player1.code.length == 0)
-				{
+				{	
+					backgroundMusic.mute();
 					miniGameState = WIN;
 					player1.lives ++;
+					player1.score += 50;
 					gotCodeSFX.play();
 				}
 
@@ -77,7 +79,11 @@ function miniGame(deltaTime)
 	else if (miniGameState == WIN)
 	{
 		var textMeasure = context.measureText("You Got The Code!");
-		context.fillText("You Got The Code!", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2);
+		context.fillText("You Got The Code!", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2 - 40);
+		textMeasure = context.measureText("Have a life and 50 Points!");
+		context.fillText("Have a life and 50 Points!", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2)
+		textMeasure = context.measureText("Press Enter to Continue!");
+		context.fillText("Press Enter to Continue!", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2 + 40);
 
 	}
 
@@ -85,6 +91,8 @@ function miniGame(deltaTime)
 	{
 		var textMeasure = context.measureText("You lose the code :(");
 		context.fillText("You lose the code :(", SCREEN_WIDTH/2  - textMeasure.width/2, SCREEN_HEIGHT/2);
+		textMeasure = context.measureText("Press Enter to Continue!");
+		context.fillText("Press Enter to Continue!", SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2 + 40);
 	}
 
 

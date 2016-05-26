@@ -257,12 +257,13 @@ function drawDebug(_cam_x, _cam_y)		//various debugging tools that are actuivate
 	if (drawOutlinePlayer)	//box around the hit box of the player
 	{
 		context.strokeRect(player1.x - TILE - _cam_x, player1.y - player1.height/2 - _cam_y, 2 * TILE, player1.height);
+		context.fillStyle = "red";
+		context.fillRect(player1.x - _cam_x, player1.y - _cam_y , 5, 5);
 
 	}
 
 	
-	context.fillStyle = "red";
-	context.fillRect(player1.x - _cam_x, player1.y - _cam_y , 5, 5);
+	
 
 	var draw_cells = false;
 
@@ -357,7 +358,6 @@ function runSplash(deltaTime)		//the splash sscereen gamestate
 		if (mouse.mouseState === MOUSE_DOWN)		//start the game
 		{		
 			backgroundMusic.play(); 		//FIX
-			backgroundMusic.loop = true;
 			curGameState = GAMESTATE_GAME;	//change game state to playing game
 			restartGame();
 		}
@@ -389,7 +389,7 @@ function runSplash(deltaTime)		//the splash sscereen gamestate
 	context.globalAlpha = 1;
 	context.lineWidth = 2;
 
-	context.drawImage(getTheCodeLogo, SCREEN_WIDTH/2 - getTheCodeLogo.width/2, 50, getTheCodeLogo.width, getTheCodeLogo.height);
+	context.drawImage(getTheCodeLogo, SCREEN_WIDTH/2 - getTheCodeLogo.width/2, 0, getTheCodeLogo.width, getTheCodeLogo.height);
 
 
 	//draw button boxes
@@ -486,13 +486,18 @@ function runSubmitScore(deltaTime) //this function allows the player to submit t
 	context.font = "30px Arial";
 	context.fillStyle = "black";
 
+	var textMeasure = context.measureText("Press F to Submit Score of "+player1.score);
+	context.fillText("Press F to Submit Score of "+player1.score, SCREEN_WIDTH/2 - textMeasure.width/2, SCREEN_HEIGHT/2);
+
 	if(keyboard.isKeyDown(keyboard.KEY_F))	//they can submit their score for entry into leaderboards
 	{	
 		submitted = false;
+		keyboard.keys[keyboard.KEY_F] = false
 	}
 
 	else if (keyboard.isKeyDown(keyboard.KEY_ENTER))
 	{
+		player1.Reset();
 		curGameState = GAMESTATE_SPLASH;
 	}
 

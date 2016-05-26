@@ -4,7 +4,9 @@ var backgroundMusic = new Howl(
 	autoplay: false,
 	loop: false,
 	buffer: true,
-	volume: 0.1
+	volume: 0.1,
+	onend: function(){backgroundMusic.pos(0);
+					  backgroundMusic.play();}
 } );
 
 var countdownSFX = new Howl(
@@ -21,7 +23,8 @@ var gotCodeSFX = new Howl(
 	loop: false,
 	autoplay: false,
 	buffer: true,
-	volume: 1
+	volume: 1,
+	onend: function(){backgroundMusic.unmute();}
 });
 
 var story = new Howl(

@@ -13,7 +13,7 @@
 			<center><img id="logo" src="Graphics/getTheCodeLogo.png" style = "width:100;height:100px;"></center>
 		</div>	
 		<div id="topTitle">
-			<h1>GET THE CODE V4.7.7</h1>
+			<h1>GET THE CODE V5.0.1</h1>
 		</div>
 	</div>
 
@@ -63,7 +63,7 @@
 		include 'PHP/includes/connection.php';
 
 		$query = "SELECT * FROM Scores ORDER BY score desc LIMIT 10";
-		$result = mysql_query($query);
+		$result = mysql_query($query) or die(mysql_error());
 
 		$place = 1;
 		echo "<form>";
@@ -78,7 +78,7 @@
 
 			$place ++;
 		}
-		echo 'Current PHP version: ' . phpversion();
+		echo "</form>";
 
 ?>
 

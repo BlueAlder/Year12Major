@@ -1,34 +1,40 @@
 body {
-	background: black;
+	background: #001866;
 	overflow-y: hidden;    
 }
 
 h1 {
 	text-align: center;
 	color: white;
-	font-family: Verdana;
+	font-family: "Comic Sans MS";
 	font-size: 50px;
 	text-decoration: underline;
+}
+
+canvas {
+	outline: #bfbfbf solid 3px;
 }
 
 
 
 #topTitle{
 	margin: 5px auto;
-
+	float: left;
+	
 	width: 640px;
-	border: 3px solid #ffffff;
+	border: 3px solid #bfbfbf;
 	background: #0000ff;
 	
 }
 
 #footer {
 	text-align: center;
-	color: grey;
+	color: white;
 }
 
 #leftLogo {
 	width: 150px;
 	height:100px;
-	border: 3px solid #ffffff;
+	border: 3px solid grey;
+	float: left ;
 }
